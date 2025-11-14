@@ -2,7 +2,7 @@
 
 ## システム概要図
 
-<img width="3084" height="2505" alt="image" src="https://github.com/user-attachments/assets/b159f70c-62f7-4a74-9638-29e79ef6de20" />
+<img width="2883" height="2206" alt="image" src="https://github.com/user-attachments/assets/86d00483-a738-4fad-b7ec-7f3060cca6b6" />
 
 ## 運用方法
 
