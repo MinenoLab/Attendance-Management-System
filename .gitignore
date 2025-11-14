@@ -1,0 +1,7 @@
+**/.venv_attendance/**
+
+**/__pycache__/**
+
+# **/logs/**
+
+# **/.env
