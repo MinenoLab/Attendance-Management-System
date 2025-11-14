@@ -9,7 +9,7 @@ app = FastAPI()
 # CORSミドルウェアを設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://172.16.15.8:3000"],
     allow_credentials=True,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
