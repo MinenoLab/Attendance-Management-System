@@ -1,0 +1,103 @@
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(0); opacity: 1; }
+    to   { transform: translateY(30px); opacity: 0; }
+}
+
+.modal-overlay {
+    position                 : fixed;
+    top                      : 0;
+    left                     : 0;
+    right                    : 0;
+    bottom                   : 0;
+    background-color         : rgba(10, 10, 25, 0.7);
+    display                  : flex;
+    align-items              : center;
+    justify-content          : center;
+    z-index                  : 1000;
+    padding                  : 16px;
+    animation-duration       : 0.3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode      : forwards;
+    animation-name           : fadeOut;
+}
+
+.modal-overlay.open {
+    animation-name: fadeIn;
+}
+
+.modal-content {
+    background-color         : #ffffff;
+    padding                  : 24px 32px;
+    border-radius            : 12px;
+    position                 : relative;
+    box-shadow               : 0 10px 30px rgba(0, 0, 0, 0.2);
+    border                   : 1px solid #e0e0e0;
+    animation-duration       : 0.3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode      : forwards;
+    animation-name           : slideDown;
+
+    width                    : 100%;
+    max-width                : 1200px;
+    max-height               : 80vh;
+
+    display                  : flex;
+    flex-direction           : column;
+    overflow                 : hidden;
+}
+
+.modal-content.open {
+    animation-name: slideUp;
+}
+
+.modal-header {
+    flex-shrink: 0;
+    position   : relative;
+    height     : 50px;
+}
+
+.modal-body {
+    flex-grow: 1;
+    overflow : auto;
+    padding  : 0 16px 24px 16px;
+}
+
+@media (min-width: 768px) {
+    .modal-body {
+        padding: 0 32px 24px 32px;
+    }
+}
+
+.modal-close-button {
+    position   : absolute;
+    top        : 12px;
+    right      : 16px;
+    background : none;
+    border     : none;
+    font-size  : 32px;
+    font-weight: 300;
+    line-height: 1;
+    cursor     : pointer;
+    color      : #aaa;
+    transition : color 0.2s ease;
+    z-index    : 10;
+}
+
+.modal-close-button:hover {
+    color: #333;
+}

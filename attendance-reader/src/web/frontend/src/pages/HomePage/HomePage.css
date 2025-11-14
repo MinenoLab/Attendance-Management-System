@@ -1,0 +1,189 @@
+/* ベースレイアウト */
+#home-page {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	max-height: 85vh;
+	padding: 2rem;
+	font-family: 'Segoe UI', 'Roboto', sans-serif;
+	position: relative;
+}
+
+.animated-bg {
+	background: linear-gradient(
+		-45deg,
+		#e8f5e9,
+		#fefae0,
+		#e0f7fa,
+		#f5f5dc,
+		#fffde7,
+		#e3f2fd
+	);
+	background-size: 600% 600%;
+	animation: softGradientFlow 30s ease-in-out infinite;
+}
+
+@keyframes softGradientFlow {
+	0%   { background-position: 0% 50%; }
+	25%  { background-position: 50% 60%; }
+	50%  { background-position: 100% 40%; }
+	75%  { background-position: 50% 30%; }
+	100% { background-position: 0% 50%; }
+}
+
+/* 時計表示 */
+#clock {
+	position: absolute;
+	top: 1.5rem;
+	right: 2rem;
+	text-align: right;
+	color: #333;
+}
+
+.clock-date {
+	font-size: 2.5rem;
+	font-weight: 500;
+}
+
+.clock-time {
+	font-size: 4rem;
+	font-weight: bold;
+	margin-top: 0.2rem;
+}
+
+/* 勤怠ボタン群 */
+#attendance-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.5rem;
+	margin-top: 5rem;
+	margin-bottom: 2.5rem;
+	justify-content: center;
+}
+
+/* 勤怠ボタン */
+#attendance-buttons button {
+	width: 275px;
+	height: 275px;
+	font-size: 2.75rem;
+	font-weight: bold;
+	border: none;
+	border-radius: 1.2rem;
+	box-shadow: 0 8px 0 rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	transform: translateY(0);
+	transition: transform 0.05s ease-in-out, box-shadow 0.05s ease-in-out;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+/* クリック時に凹むアクション */
+#attendance-buttons button:active {
+	transform: translateY(4px);
+	box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* 出勤（赤） */
+#attendance-buttons button:nth-child(1) {
+	background-color: #dc3545;
+	color: white;
+}
+
+/* 休入・休出（緑） */
+#attendance-buttons button:nth-child(2),
+#attendance-buttons button:nth-child(3) {
+	background-color: #28a745;
+	color: white;
+}
+
+/* 退勤（青） */
+#attendance-buttons button:nth-child(4) {
+	background-color: #007bff;
+	color: white;
+}
+
+/* 英語表記 */
+#attendance-buttons button small {
+	display: block;
+	font-size: 2rem;
+	color: rgba(255, 255, 255, 0.9);
+	font-weight: normal;
+	margin-top: 0.6rem;
+}
+
+/* ユーザー登録ボタン*/
+#user-register-button {
+	width: 300px;
+	height: 150px;
+	font-size: 2rem;
+	font-weight: bold;
+	background-color: #333;
+	color: white;
+	border: none;
+	border-radius: 1.5rem;
+	box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	transition: transform 0.05s ease-in-out, box-shadow 0.05s ease-in-out;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin: 1rem auto 0 auto;
+}
+
+/* 英語部分 */
+#user-register-button small {
+	font-size: 1.5rem;
+	font-weight: normal;
+	margin-top: 0.2rem;
+}
+
+/* 押下時のアクション */
+#user-register-button:active {
+	transform: translateY(4px);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* トースト通知 */
+.toast {
+	position: fixed;
+	top: 1.5rem;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #38a169;
+	color: white;
+	padding: 1rem 2rem;
+	border-radius: 0.75rem;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+	z-index: 999;
+	animation: fadeInOut 3s ease-in-out;
+	font-weight: bold;
+	font-size: 1.2rem;
+	min-width: 300px;
+	text-align: center;
+}
+
+@keyframes fadeInOut {
+	0% { opacity: 0; }
+	10% { opacity: 1; }
+	90% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+/* 英語表記を控えめに */
+button small,
+p small {
+	display: block;
+	font-size: 0.8rem;
+	color: #eee;
+	font-weight: normal;
+	margin-top: 0.3rem;
+}

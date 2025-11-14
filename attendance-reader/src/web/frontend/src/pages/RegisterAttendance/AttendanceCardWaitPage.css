@@ -1,0 +1,73 @@
+#attendance-wait-page {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	max-height: 85vh;
+	padding: 2rem;
+	background: linear-gradient(to right, #e3f2fd, #bbdefb);
+	font-family: 'Segoe UI', 'Roboto', sans-serif;
+	text-align: center;
+}
+
+#attendance-wait-page h2 {
+	font-size: 1.8rem;
+	color: #333;
+	margin-bottom: 1rem;
+}
+
+#attendance-wait-page h2 small {
+	display: block;
+	font-size: 1.2rem;
+	color: #666;
+	margin-top: 0.5rem;
+}
+
+#attendance-wait-page p {
+	font-size: 1.3rem;
+	color: #333;
+	margin-bottom: 1.5rem;
+}
+
+#attendance-wait-page p small {
+	display: block;
+	font-size: 1.1rem;
+	color: #666;
+	margin-top: 0.4rem;
+}
+
+.card-animation {
+	font-size: 5rem; /* ← 大きく拡大！ */
+	margin-bottom: 2rem;
+	animation: floatCard 1.5s ease-in-out infinite;
+}
+
+/* 上下に大きめにふわっと動く */
+@keyframes floatCard {
+	0%   { transform: translateY(0); }
+	50%  { transform: translateY(-20px); }
+	100% { transform: translateY(0); }
+}
+
+
+/* 中断ボタン */
+#cancel-button {
+	padding: 1rem 2rem;
+	font-size: 1.2rem;
+	font-weight: bold;
+	background-color: #212121;
+	color: white;
+	border: none;
+	border-radius: 1rem;
+	box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	transition: transform 0.05s ease-in-out, box-shadow 0.05s ease-in-out;
+}
+
+#cancel-button:active {
+	transform: translateY(4px);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}

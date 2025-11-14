@@ -1,0 +1,67 @@
+#user-name-select-page {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	max-height: 85vh;
+	padding: 2rem;
+	background: linear-gradient(to bottom right, #f2f2f2, #e6ecff);
+	font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+#user-name-select-page h2 {
+	font-size: 2rem;
+	color: #333;
+	text-align: center;
+	margin-bottom: 2rem;
+}
+
+#user-name-select-page h2 small {
+	display: block;
+	font-size: 1.3rem;
+	color: #666;
+	margin-top: 0.5rem;
+}
+
+/* セレクトボックス中央揃え＆広めに */
+#user-name-select-page select {
+	font-size: 1.2rem;
+	padding: 0.75rem 1rem;
+	border-radius: 0.75rem;
+	border: 1px solid #ccc;
+	min-width: 280px; /* ← 横幅を確保 */
+	text-align: center;
+	text-align-last: center; /* 中央寄せ（対応ブラウザでは option も中央） */
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+	margin-bottom: 2rem;
+}
+
+/* ボタン共通スタイル */
+#user-name-select-page button {
+	padding: 1rem 2rem;
+	font-size: 1.3rem;
+	font-weight: bold;
+	border: none;
+	border-radius: 1rem;
+	box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	background-color: #333;
+	color: white;
+	transition: transform 0.05s ease-in-out, box-shadow 0.05s ease-in-out;
+	width: 200px;
+	margin-top: 1rem;
+}
+
+#user-name-select-page button:active {
+	transform: translateY(4px);
+	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+#user-name-select-page button:disabled {
+	background-color: #999;
+	box-shadow: none;
+	cursor: not-allowed;
+}

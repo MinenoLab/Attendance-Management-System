@@ -1,0 +1,390 @@
+html,
+body {
+    margin : 0;
+    padding: 0;
+    height : 100%;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.home-page-container {
+    height          : 100vh;
+    display         : flex;
+    flex-direction  : column;
+    padding         : 0.5vh 1vw;
+    box-sizing      : border-box;
+}
+
+.home-header {
+    flex-shrink    : 0;
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    margin-bottom  : 1vh;
+    padding-bottom : 0.5vh;
+    border-bottom  : 1px solid #dee2e6;
+    flex-wrap      : wrap;
+    gap            : min(1rem, 2vw);
+    width          : 100%;
+    overflow       : hidden;
+}
+
+.board-title {
+    font-size   : clamp(2rem, 4.5vmin, 7rem);
+    font-weight : 700;
+    color       : #2c3e50;
+    margin      : 0.2em 0;
+    margin-right: auto;
+    padding     : 0.1em 0.3em;
+    line-height : 1.1;
+    flex-shrink : 1;
+    min-width   : 0;
+    overflow    : hidden;
+    text-overflow: ellipsis;
+    white-space : nowrap;
+}
+
+.header-controls {
+    display    : flex;
+    align-items: center;
+    gap        : min(2vw, 1.2rem);
+    flex-shrink: 1;
+    min-width  : 0;
+}
+
+.current-time {
+    font-size  : clamp(1rem, 2.3vmin, 2.8rem);
+    color      : #7f8c8d;
+    font-weight: 500;
+    margin     : 0.15em 0.2em;
+    padding    : 0.4em 0.8em;
+    white-space: nowrap;
+    line-height: 1.1;
+    flex-shrink: 1;
+}
+
+.admin-link-button {
+    display         : inline-block;
+    margin          : 0.15em 0.2em;
+    padding         : 0.6em 1.2em;
+    font-size       : clamp(1rem, 2.1vmin, 2.6rem);
+    font-weight     : 600;
+    color           : #ffffff;
+    background-color: #3498db;
+    border-radius   : 8px;
+    text-decoration : none;
+    transition      : background-color 0.3s ease;
+    white-space     : nowrap;
+    line-height     : 1.1;
+    flex-shrink     : 0;
+}
+
+.admin-link-button:hover {
+    background-color: #2980b9;
+}
+
+/* モニターレベルの大きな縦幅の場合はAdminメニューを非表示 */
+@media (min-height: 900px) {
+    .admin-link-button {
+        display: none;
+    }
+}
+
+.table-container {
+    background-color: #ffffff;
+    border-radius   : 12px;
+    box-shadow      : 0 8px 30px rgba(0, 0, 0, 0.05);
+    border          : 1px solid #e9ecef;
+    flex-grow       : 1;
+    overflow        : hidden;
+    display         : flex;
+    flex-direction  : column;
+    min-height      : 0;
+}
+
+.attendance-table {
+    width         : 100%;
+    display       : flex;
+    flex-direction: column;
+    height        : 100%;
+}
+
+.attendance-table thead,
+.attendance-table tbody {
+    display: block;
+}
+
+.attendance-table thead {
+    flex-shrink: 0;
+}
+
+.attendance-table tbody {
+    flex-grow     : 1;
+    display       : flex;
+    flex-direction: column;
+    overflow-y    : auto;
+    min-height    : 0;
+}
+
+.attendance-table tr {
+    display      : flex;
+    border-bottom: 1px solid #ecf0f1;
+    width        : 100%;
+    flex-shrink  : 0;
+    transition   : background-color 0.2s ease-in-out;
+}
+
+/* .attendance-table tbody tr:hover {
+    background-color: transparent;
+} */
+
+.attendance-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.attendance-table th,
+.attendance-table td {
+    display     : flex;
+    align-items : center;
+    padding     : clamp(8px, 1.5vmin, 18px) clamp(15px, 1.8vw, 35px);
+    border-right: 1px solid #ecf0f1;
+    font-size   : clamp(1rem, 2vmin, 2.2rem);
+}
+.attendance-table th:last-child,
+.attendance-table td:last-child {
+    border-right: none;
+}
+
+.attendance-table th:nth-child(1),
+.attendance-table td:nth-child(1) {
+    flex           : 0 0 72%;
+    justify-content: flex-start;
+    font-size      : clamp(1.3rem, 3.8vmin, 4.5rem);
+}
+.attendance-table th:nth-child(n+2),
+.attendance-table td:nth-child(n+2) {
+    flex           : 0 0 14%;
+    justify-content: center;
+}
+
+.user-name-clickable {
+    cursor         : pointer;
+    color          : black;
+    text-decoration: none;
+    transition     : color 0.2s ease-in-out;
+}
+
+.user-name-clickable:hover {
+    color          : #0056b3;
+    text-decoration: underline;
+}
+
+.year-navigator {
+    display        : flex;
+    justify-content: flex-end;
+    gap            : 8px;
+    margin-bottom  : 16px;
+}
+.year-navigator button {
+    padding         : 4px 12px;
+    border-radius   : 6px;
+    border          : 1px solid #d0d7de;
+    background-color: #f6f8fa;
+    cursor          : pointer;
+    font-size       : 14px;
+}
+.year-navigator button:hover {
+    background-color: #f3f4f6;
+}
+
+.attendance-table thead th {
+    font-size       : clamp(1.3rem, 3.2vmin, 3.8rem);
+    font-weight     : 600;
+    color           : #ffffff;
+    background-color: #495057;
+    padding         : clamp(5px, 1.2vmin, 12px) clamp(20px, 2vw, 40px);
+}
+
+.status-marker {
+    display       : inline-block;
+    width         : clamp(24px, 4.5vmin, 70px);
+    height        : clamp(24px, 4.5vmin, 70px);
+    border-radius : 50%;
+    vertical-align: middle;
+    opacity       : 0;
+    transform     : scale(0.8);
+    transition    : opacity 0.4s ease-in-out, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position      : relative;
+}
+
+.status-marker.active {
+    opacity  : 1;
+    transform: scale(1);
+    animation: pulseIn 0.6s ease-out;
+}
+
+.status-marker.active:hover {
+    transform: scale(1.1);
+    animation: none;
+}
+
+.status-marker.fadeout {
+    opacity  : 0;
+    transform: scale(0.8);
+}
+
+@keyframes pulseIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.status-marker.present {
+    background: linear-gradient(135deg, #27ae60 0%, #2ecc71 50%, #58d68d 100%);
+    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
+}
+.status-marker.away {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #fcd34d 100%);
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+.status-marker.absent {
+    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 50%, #d1d5db 100%);
+    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.2);
+}
+.status-marker.unknown {
+    background: linear-gradient(135deg, #cbd5e1 0%, #e2e8f0 50%, #f1f5f9 100%);
+    box-shadow: 0 2px 8px rgba(203, 213, 225, 0.2);
+}
+
+.grade-professor {
+    background-color: #e0e0f0;
+}
+.grade-researcher {
+    background-color: #d0e0d0;
+}
+.grade-m2 {
+    background-color: #f0e0c0;
+}
+.grade-m1 {
+    background-color: #f0d0d0;
+}
+.grade-b4 {
+    background-color: #c0d0e0;
+}
+.grade-b3 {
+    background-color: #e0e0e0;
+}
+
+.no-data-cell {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    width          : 100%;
+    color          : #7f8c8d;
+    padding        : 2vh 0;
+    font-size      : clamp(1.1rem, 2.5vmin, 2.5rem);
+}
+
+.modal-status-container {
+    display        : flex;
+    justify-content: center;
+    align-items    : center;
+    min-height     : 250px;
+    text-align     : center;
+    font-size      : 1.1em;
+    color          : #555;
+}
+
+.modal-status-container .error-message {
+    color: #d9534f;
+}
+
+@media (max-width: 768px) {
+    .home-header {
+        flex-direction: column;
+        align-items   : flex-start;
+        gap           : 0.3rem;
+        margin-bottom : 0.5vh;
+        padding-bottom: 0.3vh;
+    }
+
+    .board-title {
+        font-size: clamp(1.5rem, 3.8vmin, 5rem);
+    }
+
+    .header-controls {
+        width          : 100%;
+        justify-content: space-between;
+        gap            : 1rem;
+    }
+
+    .attendance-table th:nth-child(1),
+    .attendance-table td:nth-child(1) {
+        flex-basis: 60%;
+        font-size : clamp(0.9rem, 3.2vmin, 2.8rem);
+    }
+    
+    .attendance-table th:nth-child(n+2),
+    .attendance-table td:nth-child(n+2) {
+        flex-basis: 20%;
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        padding  : 1.5vh 2vw;
+        font-size: clamp(0.9rem, 2.4vmin, 2rem);
+    }
+    
+    .attendance-table th:nth-child(n+2),
+    .attendance-table td:nth-child(n+2) {
+        font-size: clamp(0.7rem, 1.8vmin, 1.5rem);
+    }
+}
+
+.name-cell {
+    padding: 12px;
+}
+
+.name-cell-content {
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+    gap            : 12px;
+}
+
+.user-name-clickable {
+    flex       : 1;
+    min-width  : 0;
+    cursor     : pointer;
+    transition : color 0.2s;
+    margin-left: auto;
+}
+
+.user-name-clickable:hover {
+    color          : #007bff;
+    text-decoration: underline;
+}
+
+.user-mini-graph {
+    flex-shrink : 0;
+    margin-right: auto;
+}
+
+/* モニター版（大画面）専用のスタイル */
+@media (min-width: 1024px) {
+    .name-cell-content {
+        gap: clamp(16px, 2vw, 24px);
+    }
+}
