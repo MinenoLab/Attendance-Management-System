@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo }                 from 'react';
-import { useLocation, useNavigate, Link }                      from "react-router-dom";
+import { useLocation, useNavigate }                            from "react-router-dom";
 import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
 import { useGetSnapshot }                                      from '../../hooks/useGetSnapshot';
 import { useGetLast7DaysAttendance }                           from '../../hooks/useGetLast7DaysAttendance';
@@ -7,6 +7,7 @@ import { useAttendanceSocket }                                 from '../../hooks
 import Modal                                                   from '../../components/Modal/Modal';
 import Medal                                                   from '../../components/Medal/Medal';
 import ContributionGraph, { MiniContributionGraph }            from '../../components/ContributionGraph/ContributionGraph';
+import EventHeader                                             from '../../components/EventHeader/EventHeader';
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
@@ -212,14 +213,13 @@ const HomePage: React.FC = () => {
 
     return (
         <div className="home-page-container">
-            <header className="home-header">
-                <h1 className="board-title">Attendance Status Board</h1>
-                <p className="current-time">
-                    {currentTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
-                    {currentTime.toLocaleTimeString('en-US')}
-                </p>
-                <Link to="/admin" state={{ allUsers: passedState?.allUsers }} className="admin-link-button">Admin Menu</Link>
-            </header>
+            <EventHeader 
+                currentTime={currentTime}
+                title="Attendance Status Board"
+                showAdminLink={true}
+                adminLinkState={{ allUsers: passedState?.allUsers }}
+                testMode={true}
+            />
             <main className="table-container">
                 <table className="attendance-table">
                     <thead>
