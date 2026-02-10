@@ -54,15 +54,17 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                 const currentDate = new Date(startDateObj);
                 currentDate.setDate(startDateObj.getDate() + weekIndex * 7 + dayOfWeekIndex);
                 
-                // 終了日を超えたら空のDateオブジェクトを追加
-                if (currentDate > lastDayOfPeriod) {
+                // 期間外（開始日より前または終了日より後）なら空のDateオブジェクトを追加
+                if (currentDate < firstDayOfPeriod || currentDate > lastDayOfPeriod) {
                     week.push(new Date(NaN)); // 無効な日付として扱う
                 } else {
                     week.push(currentDate);
                 }
                 
                 const month = currentDate.getMonth();
-                if (month !== lastMonth && dayOfWeekIndex === 0 && !isNaN(currentDate.getTime())) {
+                // 期間内の日付で、かつ週の最初の日（日曜日）で月が変わった場合にラベルを追加
+                if (month !== lastMonth && dayOfWeekIndex === 0 && 
+                    currentDate >= firstDayOfPeriod && currentDate <= lastDayOfPeriod) {
                     monthLabelPositions.push({ label: MONTH_LABELS[month], index: weekIndex });
                     lastMonth = month;
                 }
