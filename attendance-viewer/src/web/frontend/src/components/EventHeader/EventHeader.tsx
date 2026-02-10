@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { getCurrentDateEvent, DATE_EVENTS } from './eventConfig';
+import { getCurrentDateEvent, DATE_EVENTS } from '../../types/event';
 import './EventHeader.css';
 
 interface EventHeaderProps {
