@@ -52,8 +52,12 @@ const getGradeRowClass = (grade: string): string => {
 };
 
 // 日付をYYYY-MM-DD形式の文字列にフォーマットするヘルパー関数
+// タイムゾーン問題を回避するため、ローカル時刻で日付を取得
 const formatDate = (date: Date): string => {
-    return date.toISOString().split('T')[0];
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
 };
 
 // ホームページコンポーネント
