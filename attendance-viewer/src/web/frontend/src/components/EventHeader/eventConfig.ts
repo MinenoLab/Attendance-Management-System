@@ -73,6 +73,15 @@ export const DATE_EVENTS: DateEvent[] = [
         rightIcon: '🎭'
     },
     
+    // イースター（4/4～4/6）
+    { 
+        startMonth: 4, startDay: 4, 
+        endMonth: 4, endDay: 6, 
+        name: 'イースター',
+        leftIcon: '🐰',
+        rightIcon: '🥚'
+    },
+    
     // バラ/母の日（5/1～5/3）
     { 
         startMonth: 5, startDay: 1, 
