@@ -4,7 +4,8 @@ import './ContributionGraph.css';
 // コンポーネントのプロパティの型定義
 interface ContributionGraphProps {
     userName : string;
-    year     : number;
+    startDate: string; // 'YYYY-MM-DD' 形式
+    endDate  : string; // 'YYYY-MM-DD' 形式
     dailyData: { [date: string]: number };
 }
 
@@ -27,36 +28,48 @@ const toISODateString = (date: Date): string => {
     return `${y}-${m}-${d}`;
 };
 
-const ContributionGraph: React.FC<ContributionGraphProps> = ({ year, dailyData, userName }) => {
+const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDate, dailyData, userName }) => {
     const getCalendarData = () => {
         const weeks: Date[][]                                         = [];
         const monthLabelPositions: { label: string; index: number }[] = [];
-        const firstDayOfYear                                          = new Date(year, 0, 1);
-        const dayOfWeek                                               = firstDayOfYear.getDay();
+        
+        // startDateを解析して開始日を取得
+        const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
+        const firstDayOfPeriod = new Date(startYear, startMonth - 1, startDay);
+        const dayOfWeek = firstDayOfPeriod.getDay();
 
-        // 1月1日の前の日曜日を計算
-        const startDate = new Date(firstDayOfYear);
-        startDate.setDate(firstDayOfYear.getDate() - dayOfWeek);
-        let lastMonth   = -1;
-        let currentDate = new Date(startDate);
+        // 開始日の前の日曜日を計算
+        const startDateObj = new Date(firstDayOfPeriod);
+        startDateObj.setDate(firstDayOfPeriod.getDate() - dayOfWeek);
+        
+        // endDateを解析して終了日を取得
+        const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
+        const lastDayOfPeriod = new Date(endYear, endMonth - 1, endDay);
+        
+        let lastMonth = -1;
 
-        // 1年分の週を生成
         for (let weekIndex = 0; weekIndex < WEEKS_TO_SHOW; weekIndex++) {
-            const currentWeek: Date[] = [];
-            // 1週間分の日付を追加
-            for (let dayIndex = 0; dayIndex < 7; dayIndex++) {
-                currentWeek.push(new Date(currentDate));
-                // 月のラベルを追加
-                if (currentDate.getFullYear() === year && currentDate.getMonth() !== lastMonth) {
-                    monthLabelPositions.push({ label: MONTH_LABELS[currentDate.getMonth()], index: weekIndex });
-                    lastMonth = currentDate.getMonth();
+            const week: Date[] = [];
+            for (let dayOfWeekIndex = 0; dayOfWeekIndex < 7; dayOfWeekIndex++) {
+                const currentDate = new Date(startDateObj);
+                currentDate.setDate(startDateObj.getDate() + weekIndex * 7 + dayOfWeekIndex);
+                
+                // 終了日を超えたら空のDateオブジェクトを追加
+                if (currentDate > lastDayOfPeriod) {
+                    week.push(new Date(NaN)); // 無効な日付として扱う
+                } else {
+                    week.push(currentDate);
                 }
-                // 日付を1日進める
-                currentDate.setDate(currentDate.getDate() + 1);
+                
+                const month = currentDate.getMonth();
+                if (month !== lastMonth && dayOfWeekIndex === 0 && !isNaN(currentDate.getTime())) {
+                    monthLabelPositions.push({ label: MONTH_LABELS[month], index: weekIndex });
+                    lastMonth = month;
+                }
             }
-            // 週を追加
-            weeks.push(currentWeek);
+            weeks.push(week);
         }
+
         return { weeks, monthLabelPositions };
     };
 
@@ -64,7 +77,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ year, dailyData, 
 
     return (
         <div className="graph-container-yearly">
-            <h3 className="graph-title">{userName} - {year}年</h3>
+            <h3 className="graph-title">{userName} - {startDate} 〜 {endDate}</h3>
             <div className="graph-grid">
                 <div className="months-row">
                     {monthLabelPositions.map(({ label, index }) => (
@@ -87,7 +100,8 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ year, dailyData, 
                         {weeks.map((week, weekIndex) => (
                             <div key={weekIndex} className="week-col">
                                 {week.map((date, dayIndex) => {
-                                    if (date.getFullYear() !== year) {
+                                    // 無効な日付の場合は空のセルを表示
+                                    if (isNaN(date.getTime())) {
                                         return <div key={dayIndex} className="cell empty" />;
                                     }
 

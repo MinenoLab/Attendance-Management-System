@@ -153,12 +153,24 @@ const HomePage: React.FC = () => {
         return null;
     };
 
-    // currentYearかselectedUserが変更されたら，API用の日付を更新
+    // selectedUserが変更されたら，学年度(4/1～3/31)の日付範囲を設定
     useEffect(() => {
         if (selectedUser) {
-            const currentYear = new Date().getFullYear();
-            const firstDay    = new Date(currentYear, 0, 1);
-            const lastDay     = new Date(currentYear, 11, 31);
+            const today = new Date();
+            const currentMonth = today.getMonth(); // 0-11
+            const currentYear = today.getFullYear();
+            
+            // 4月(月インデックス3)以降なら今年度、それ以外は前年度
+            let academicStartYear: number;
+            if (currentMonth >= 3) { // 4月以降
+                academicStartYear = currentYear;
+            } else { // 1月〜3月
+                academicStartYear = currentYear - 1;
+            }
+            
+            const firstDay = new Date(academicStartYear, 3, 1); // 4月1日
+            const lastDay = new Date(academicStartYear + 1, 2, 31); // 翌年3月31日
+            
             setStartDate(formatDate(firstDay));
             setEndDate(formatDate(lastDay));
         }
@@ -269,7 +281,8 @@ const HomePage: React.FC = () => {
                 ) : (
                     selectedUser && <ContributionGraph
                         userName={selectedUser.name}
-                        year={new Date().getFullYear()}
+                        startDate={startDate}
+                        endDate={endDate}
                         dailyData={snapshotData?.[selectedUser.name] || {}}
                     />
                 )}
