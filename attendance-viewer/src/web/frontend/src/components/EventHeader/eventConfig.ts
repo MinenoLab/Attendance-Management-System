@@ -56,9 +56,9 @@ export const DATE_EVENTS: DateEvent[] = [
         rightIcon: '🌸'
     },
     
-    // 桜（3/15～3/31）
+    // 桜（3/27～3/31）
     {
-        startMonth: 3, startDay: 15,
+        startMonth: 3, startDay: 27,
         endMonth: 3, endDay: 31,
         name: '桜の季節',
         leftIcon: '🌸',
@@ -91,9 +91,9 @@ export const DATE_EVENTS: DateEvent[] = [
         rightIcon: '💐'
     },
     
-    // 梅雨（6/15～6/30）
+    // 梅雨（6/28～6/30）
     {
-        startMonth: 6, startDay: 15,
+        startMonth: 6, startDay: 28,
         endMonth: 6, endDay: 30,
         name: '梅雨',
         leftIcon: '☔',
@@ -109,9 +109,9 @@ export const DATE_EVENTS: DateEvent[] = [
         rightIcon: '⭐'
     },
     
-    // 花火/夏（8/15～8/31）
+    // 花火/夏（8/29～8/31）
     {
-        startMonth: 8, startDay: 15,
+        startMonth: 8, startDay: 29,
         endMonth: 8, endDay: 31,
         name: '夏祭り',
         leftIcon: '🎆',
