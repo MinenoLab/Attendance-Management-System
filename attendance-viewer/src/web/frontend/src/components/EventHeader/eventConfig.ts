@@ -26,7 +26,7 @@ export const DATE_EVENTS: DateEvent[] = [
         endMonth: 1, endDay: 6, 
         name: 'お正月',
         leftIcon: '🎍',
-        rightIcon: '🐉'
+        rightIcon: '🍊'
     },
     
     // 節分（2/2～2/4）

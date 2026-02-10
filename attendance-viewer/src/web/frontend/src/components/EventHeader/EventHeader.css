@@ -1,20 +1,34 @@
 .event-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    flex-shrink    : 0;
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    margin-bottom  : 1vh;
+    padding-bottom : 0.5vh;
+    border-bottom  : 1px solid #dee2e6;
+    flex-wrap      : wrap;
+    gap            : min(1rem, 2vw);
+    width          : 100%;
+    overflow       : hidden;
+    position       : relative;
 }
 
 .board-title {
-    font-size: 2rem;
-    margin: 0 0 10px 0;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+    font-size   : clamp(2rem, 4.5vmin, 7rem);
+    font-weight : 700;
+    color       : #2c3e50;
+    margin      : 0.2em 0;
+    margin-right: auto;
+    padding     : 0.1em 0.3em;
+    line-height : 1.1;
+    flex-shrink : 1;
+    min-width   : 0;
+    overflow    : visible;
+    text-overflow: clip;
+    white-space : nowrap;
+    display     : flex;
+    align-items : center;
+    gap         : 15px;
 }
 
 /* エイプリルフール用の特殊効果 */
@@ -46,70 +60,94 @@
     }
 }
 
+.header-controls {
+    display    : flex;
+    align-items: center;
+    gap        : min(2vw, 1.2rem);
+    flex-shrink: 1;
+    min-width  : 0;
+}
+
 .current-time {
-    font-size: 1rem;
-    margin: 0;
-    opacity: 0.9;
+    font-size  : clamp(1rem, 2.3vmin, 2.8rem);
+    color      : #7f8c8d;
+    font-weight: 500;
+    margin     : 0.15em 0.2em;
+    padding    : 0.4em 0.8em;
+    white-space: nowrap;
+    line-height: 1.1;
+    flex-shrink: 1;
 }
 
 .event-badge {
     display: inline-block;
-    margin-left: 10px;
-    padding: 3px 12px;
-    background-color: rgba(255, 255, 255, 0.3);
-    border-radius: 15px;
-    font-size: 0.85em;
+    margin-left: 8px;
+    padding: 2px 10px;
+    background-color: #e8f4f8;
+    color: #3498db;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
 }
 
 .admin-link-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
+    display         : inline-block;
+    margin          : 0.15em 0.2em;
+    padding         : 0.6em 1.2em;
+    font-size       : clamp(1rem, 2.1vmin, 2.6rem);
+    font-weight     : 600;
+    color           : #ffffff;
+    background-color: #3498db;
+    border-radius   : 8px;
+    text-decoration : none;
+    transition      : background-color 0.3s ease;
+    white-space     : nowrap;
+    line-height     : 1.1;
+    flex-shrink     : 0;
 }
 
 .admin-link-button:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: #2980b9;
+}
+
+/* モニターレベルの大きな縦幅の場合はAdminメニューを非表示 */
+@media (min-height: 900px) {
+    .admin-link-button {
+        display: none;
+    }
 }
 
 /* テストモード切替ボタン */
 .test-mode-toggle {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    padding: 8px 12px;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.4em 0.6em;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 1.2rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .test-mode-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: #e0e0e0;
     transform: scale(1.05);
 }
 
 /* テストモードパネル */
 .test-mode-panel {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-color: #f8f9fa;
     padding: 20px;
-    border-bottom: 2px solid #667eea;
+    border-bottom: 2px solid #dee2e6;
     color: #333;
+    margin-bottom: 1vh;
 }
 
 .test-mode-panel h3 {
     margin: 0 0 15px 0;
     font-size: 1.2rem;
-    color: #667eea;
+    color: #2c3e50;
 }
 
 .event-selector {
@@ -121,7 +159,7 @@
 .event-selector button {
     padding: 10px 15px;
     background-color: white;
-    border: 2px solid #667eea;
+    border: 2px solid #3498db;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
@@ -139,7 +177,7 @@
 }
 
 .event-selector button.active {
-    background-color: #667eea;
+    background-color: #3498db;
     color: white;
     font-weight: bold;
 }

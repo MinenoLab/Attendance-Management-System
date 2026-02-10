@@ -39,16 +39,19 @@ const EventHeader: React.FC<EventHeaderProps> = ({
                     {title}
                     {currentEvent && <span className="event-icon right">{currentEvent.rightIcon}</span>}
                 </h1>
-                <p className="current-time">
-                    {currentTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
-                    {currentTime.toLocaleTimeString('en-US')}
-                    {currentEvent && <span className="event-badge">{currentEvent.name}</span>}
-                </p>
-                {showAdminLink && (
-                    <Link to="/admin" state={adminLinkState} className="admin-link-button">
-                        Admin Menu
-                    </Link>
-                )}
+                
+                <div className="header-controls">
+                    <p className="current-time">
+                        {currentTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
+                        {currentTime.toLocaleTimeString('en-US')}
+                        {currentEvent && <span className="event-badge">{currentEvent.name}</span>}
+                    </p>
+                    {showAdminLink && (
+                        <Link to="/admin" state={adminLinkState} className="admin-link-button">
+                            Admin Menu
+                        </Link>
+                    )}
+                </div>
                 
                 {/* テストモード切替ボタン */}
                 <button 
