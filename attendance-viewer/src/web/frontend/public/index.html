@@ -13,7 +13,11 @@
     <style>
       /* 絵文字フォントのフォールバック設定（Raspberry Pi対応） */
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif, "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", "EmojiOne Color", "Android Emoji";
+      }
+      /* 絵文字専用の強制設定 */
+      .event-icon {
+        font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", "EmojiOne Color", "Android Emoji", "Symbola" !important;
       }
     </style>
     <!--

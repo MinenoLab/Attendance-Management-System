@@ -44,7 +44,11 @@
     justify-content: center;
     line-height: 1;
     height: 1em;
-    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", sans-serif;
+    font-family: "Noto Color Emoji", "Apple Color Emoji", "Segoe UI Emoji", "EmojiOne Color", "Android Emoji", "Symbola", sans-serif;
+    /* 絵文字のレンダリングを強制 */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .header-controls {
