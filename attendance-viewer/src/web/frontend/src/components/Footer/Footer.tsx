@@ -35,11 +35,11 @@ const Footer: React.FC = () => {
                 {/* 縦型モニター用（テキスト表示） */}
                 <div className="footer-section footer-text-only">
                     <span className="footer-text">
-                        GitHub: MinenoLab/Attendance-Management-System
+                        <strong className="footer-label">GitHub:</strong> MinenoLab/Attendance-Management-System
                     </span>
                     <span className="separator">|</span>
                     <span className="footer-text">
-                        Contact: mkr.k117@gmail.com
+                        <strong className="footer-label">Contact:</strong> mkr.k117@gmail.com
                     </span>
                 </div>
             </div>

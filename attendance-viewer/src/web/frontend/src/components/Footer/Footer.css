@@ -26,13 +26,13 @@
 .footer-text {
     margin: 0;
     font-size: 0.75rem;
-    color: #95a5a6;
+    color: #6c757d;
     line-height: 1.4;
 }
 
 .footer-affiliation {
     font-size: 0.7rem;
-    color: #b0b8bf;
+    color: #8a95a0;
 }
 
 .footer-text strong {
@@ -94,15 +94,23 @@
     
     /* フォントサイズを大きく */
     .footer-text {
-        font-size: clamp(0.75rem, 1.5vmin, 1.1rem);
+        font-size: clamp(0.9rem, 1.8vmin, 1.3rem);
+        color: #495057;
     }
     
     .footer-affiliation {
-        font-size: clamp(0.7rem, 1.4vmin, 1rem);
+        font-size: clamp(0.85rem, 1.7vmin, 1.2rem);
+        color: #6c757d;
     }
     
     .separator {
-        font-size: clamp(0.75rem, 1.5vmin, 1.1rem);
+        font-size: clamp(0.9rem, 1.8vmin, 1.3rem);
+        color: #adb5bd;
+    }
+    
+    /* 項目名（GitHub:、Contact:）を太字に */
+    .footer-label {
+        font-weight: 700;
     }
 }
 
