@@ -34,3 +34,26 @@
         transform: rotate(360deg);
     }
 }
+
+/* 縦型モニター対応（portrait orientation）*/
+@media (orientation: portrait) and (min-height: 800px) {
+    .loading-container h1 {
+        font-size: clamp(2.5rem, 4.5vmin, 6rem);
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: clamp(12px, 2vh, 24px);
+    }
+
+    .loading-container p {
+        font-size: clamp(1.6rem, 3vmin, 4rem);
+        color: #4a5568;
+        font-weight: 500;
+        margin-bottom: clamp(50px, 6vh, 80px);
+    }
+
+    .spinner {
+        width: clamp(80px, 8vmin, 140px);
+        height: clamp(80px, 8vmin, 140px);
+        border-width: clamp(8px, 1vmin, 14px);
+    }
+}
