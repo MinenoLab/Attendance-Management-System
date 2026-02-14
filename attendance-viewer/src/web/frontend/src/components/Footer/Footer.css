@@ -1,7 +1,7 @@
 .app-footer {
     flex-shrink: 0;
-    background-color: #f8f9fa;
-    border-top: 2px solid #dee2e6;
+    background-color: #e9ecef;
+    border-top: 3px solid #ced4da;
     padding: 0.5rem 1rem;
     margin-top: 0.5vh;
 }
