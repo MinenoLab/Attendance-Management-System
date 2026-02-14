@@ -34,8 +34,7 @@ const EventHeader: React.FC<EventHeaderProps> = ({
             
             <div className="header-controls">
                 <p className="current-time">
-                    {currentTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}&nbsp;
-                    {currentTime.toLocaleTimeString('en-US')}
+                    {currentTime.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                     {currentEvent && <span className="event-badge">{currentEvent.name}</span>}
                 </p>
                 {showAdminLink && (
