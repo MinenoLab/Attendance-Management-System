@@ -1,0 +1,126 @@
+.registration-prompt-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.registration-box {
+    background: white;
+    border-radius: 16px;
+    padding: 48px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.info-icon {
+    width: 80px;
+    height: 80px;
+    color: #3498db;
+    margin-bottom: 24px;
+}
+
+.registration-title {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 24px;
+    font-weight: 700;
+}
+
+.registration-message {
+    text-align: left;
+    margin-bottom: 32px;
+}
+
+.main-message {
+    font-size: 1.2rem;
+    color: #34495e;
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.sub-message {
+    font-size: 1rem;
+    color: #7f8c8d;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.instruction-box {
+    background: #f8f9fa;
+    border-left: 4px solid #3498db;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 24px;
+}
+
+.instruction-box h3 {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.instruction-box ol {
+    margin: 0;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.instruction-box li {
+    font-size: 0.95rem;
+    color: #34495e;
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+.retry-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.retry-button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+}
+
+.retry-button:active {
+    transform: translateY(0);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .registration-box {
+        padding: 32px 24px;
+    }
+
+    .registration-title {
+        font-size: 1.5rem;
+    }
+
+    .main-message {
+        font-size: 1rem;
+    }
+
+    .sub-message {
+        font-size: 0.9rem;
+    }
+
+    .info-icon {
+        width: 64px;
+        height: 64px;
+    }
+}

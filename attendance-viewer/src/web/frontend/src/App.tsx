@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Authenticator } from '@aws-amplify/ui-react';
 
-import LoadingPage from './pages/LoadingPage/LoadingPage';
-import ErrorPage   from './pages/ErrorPage/ErrorPage';
-import HomePage    from './pages/HomePage/HomePage';
-import AdminPage   from './pages/AdminPage/AdminPage';
+import LoadingPage            from './pages/LoadingPage/LoadingPage';
+import ErrorPage              from './pages/ErrorPage/ErrorPage';
+import HomePage               from './pages/HomePage/HomePage';
+import AdminPage              from './pages/AdminPage/AdminPage';
+import RegistrationPromptPage from './pages/RegistrationPromptPage/RegistrationPromptPage';
 
 import './App.css';
 
@@ -17,6 +18,7 @@ function App() {
 				<Route path="/"      element={<LoadingPage />} />
 				<Route path="/views" element={<HomePage />} />
 				<Route path="/error" element={<ErrorPage />} />
+				<Route path="/registration-prompt" element={<RegistrationPromptPage />} />
 
 				{/* 認証が必要な管理者ページへのルート */}
 				<Route

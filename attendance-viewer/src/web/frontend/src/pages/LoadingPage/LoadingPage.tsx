@@ -1,11 +1,12 @@
 import { useEffect }        from "react";
-import { useNavigate }      from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useGetAttendance } from "../../hooks/useGetAttendance";
 import { useGetUser }       from "../../hooks/useGetUser";
 import './LoadingPage.css';
 
 const LoadingPage = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     // useGetAttendanceフックを使用して、出席者のデータを取得
     // useGetUserフックを使用して、全ユーザーのデータを取得
@@ -13,6 +14,22 @@ const LoadingPage = () => {
     const { users: allUsers, isLoading: isLoadingAllUsers, error: allUsersError }            = useGetUser();
 
     useEffect(() => {
+        // テスト用：クエリパラメータで特定のページを強制表示
+        const searchParams = new URLSearchParams(location.search);
+        const testMode = searchParams.get('test');
+        
+        if (testMode === 'registration') {
+            navigate("/registration-prompt", { replace: true });
+            return;
+        }
+        if (testMode === 'error') {
+            navigate("/error", {
+                replace: true,
+                state: { message: 'テスト用エラーメッセージ' }
+            });
+            return;
+        }
+
         // 読み込み状態を確認
         const isStillLoading = isLoadingAttendance || isLoadingAllUsers;
         if (isStillLoading) {
@@ -25,6 +42,14 @@ const LoadingPage = () => {
             navigate("/error", {
                 replace: true,
                 state: { message: combinedError.message }
+            });
+            return;
+        }
+
+        // ユーザーが0人の場合は、登録促進ページにリダイレクト
+        if (allUsers && allUsers.length === 0) {
+            navigate("/registration-prompt", {
+                replace: true
             });
             return;
         }
@@ -43,7 +68,7 @@ const LoadingPage = () => {
         isLoadingAttendance, isLoadingAllUsers,
         attendanceUsers, allUsers,
         attendanceError, allUsersError,
-        navigate
+        navigate, location.search
     ]);
 
     return (
