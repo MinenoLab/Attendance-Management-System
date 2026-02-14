@@ -1,9 +1,9 @@
 .app-footer {
     flex-shrink: 0;
-    background-color: #f8f9fa;
-    border-top: 1px solid #dee2e6;
-    padding: 1rem 2rem;
-    margin-top: 1vh;
+    background-color: transparent;
+    border-top: 1px solid #f0f0f0;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5vh;
 }
 
 .footer-content {
@@ -11,7 +11,7 @@
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.75rem;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -19,38 +19,39 @@
 .footer-section {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
 }
 
 .footer-text {
     margin: 0;
-    font-size: 0.875rem;
-    color: #6c757d;
-    line-height: 1.5;
+    font-size: 0.75rem;
+    color: #95a5a6;
+    line-height: 1.4;
 }
 
 .footer-affiliation {
-    font-size: 0.8rem;
-    color: #868e96;
+    font-size: 0.7rem;
+    color: #b0b8bf;
 }
 
 .footer-text strong {
-    color: #495057;
-    font-weight: 600;
+    color: #7f8c8d;
+    font-weight: 500;
 }
 
+/* 通常のPC/モバイル用リンク表示（デフォルト） */
 .footer-links {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
 }
 
 .footer-link {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     color: #3498db;
     text-decoration: none;
     transition: color 0.2s ease;
@@ -63,50 +64,68 @@
 }
 
 .footer-link .icon {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+}
+
+/* 縦型モニター用テキスト表示（デフォルトで非表示） */
+.footer-text-only {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
 }
 
 .separator {
     color: #dee2e6;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
+}
+
+/* 縦型モニター用の設定（高さ900px以上） */
+@media (min-height: 900px) {
+    /* リンク表示を非表示 */
+    .footer-links {
+        display: none;
+    }
+    
+    /* テキスト表示を表示 */
+    .footer-text-only {
+        display: flex;
+    }
+    
+    /* フォントサイズを大きく */
+    .footer-text {
+        font-size: clamp(0.75rem, 1.5vmin, 1.1rem);
+    }
+    
+    .footer-affiliation {
+        font-size: clamp(0.7rem, 1.4vmin, 1rem);
+    }
+    
+    .separator {
+        font-size: clamp(0.75rem, 1.5vmin, 1.1rem);
+    }
 }
 
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .app-footer {
-        padding: 0.75rem 1rem;
+        padding: 0.4rem 0.75rem;
     }
 
     .footer-content {
         flex-direction: column;
         text-align: center;
-        gap: 0.5rem;
+        gap: 0.4rem;
     }
 
     .footer-section {
         justify-content: center;
     }
-
-    .footer-text {
-        font-size: 0.8rem;
-    }
-
-    .footer-link {
-        font-size: 0.8rem;
-    }
 }
 
 /* 非常に小さい画面の場合 */
 @media (max-width: 480px) {
-    .footer-text {
-        font-size: 0.75rem;
-    }
-
-    .footer-link {
-        font-size: 0.75rem;
-    }
-
-    .footer-link .icon {
-        font-size: 0.8rem;
+    .app-footer {
+        padding: 0.3rem 0.5rem;
     }
 }

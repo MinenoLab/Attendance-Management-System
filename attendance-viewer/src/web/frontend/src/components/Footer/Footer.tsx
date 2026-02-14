@@ -13,6 +13,7 @@ const Footer: React.FC = () => {
                         (MinenoLab, Shizuoka University)
                     </p>
                 </div>
+                {/* 通常のPC/モバイル用（リンク表示） */}
                 <div className="footer-section footer-links">
                     <a 
                         href="https://github.com/MinenoLab/Attendance-Management-System" 
@@ -29,6 +30,17 @@ const Footer: React.FC = () => {
                     >
                         <span className="icon">✉️</span> Contact
                     </a>
+                </div>
+                
+                {/* 縦型モニター用（テキスト表示） */}
+                <div className="footer-section footer-text-only">
+                    <span className="footer-text">
+                        GitHub: MinenoLab/Attendance-Management-System
+                    </span>
+                    <span className="separator">|</span>
+                    <span className="footer-text">
+                        Contact: mkr.k117@gmail.com
+                    </span>
                 </div>
             </div>
         </footer>
