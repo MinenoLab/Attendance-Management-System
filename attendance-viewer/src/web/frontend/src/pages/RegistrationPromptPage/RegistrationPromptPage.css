@@ -124,3 +124,43 @@
         height: 64px;
     }
 }
+
+/* 縦型モニター対応（portrait orientation）*/
+@media (orientation: portrait) and (min-height: 800px) {
+    .registration-box {
+        padding  : 80px 100px;
+        max-width: 1000px;
+    }
+
+    .info-icon {
+        width : 150px;
+        height: 150px;
+    }
+
+    .registration-title {
+        font-size: 3.5rem;
+    }
+
+    .main-message {
+        font-size: 2rem;
+    }
+
+    .sub-message {
+        font-size  : 1.6rem;
+        line-height: 1.8;
+    }
+
+    .instruction-box h3 {
+        font-size: 1.8rem;
+    }
+
+    .instruction-box li {
+        font-size  : 1.5rem;
+        line-height: 2;
+    }
+
+    .retry-button {
+        font-size: 1.8rem;
+        padding  : 24px 56px;
+    }
+}

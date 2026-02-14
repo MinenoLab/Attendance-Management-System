@@ -1,5 +1,5 @@
 import React, { useState, useEffect }      from 'react';
-import { useLocation, Link }               from 'react-router-dom';
+import { useLocation }                     from 'react-router-dom';
 import { fetchAuthSession }                from '@aws-amplify/auth';
 import { useAuthenticator }                from '@aws-amplify/ui-react';
 import { useUpdateAttendanceAdmin }        from '../../hooks/useUpdateAttendanceAdmin';
@@ -94,19 +94,6 @@ const AdminPage = () => {
                         </form>
                         {isSuccess && <p className="success-message">更新に成功しました．</p>}
                         {error && <p className="error-message">エラー: {error.message}</p>}
-                        
-                        <div className="test-preview-section">
-                            <h2 className="section-title">テストページプレビュー</h2>
-                            <p className="section-description">開発・テスト用の特別ページを確認できます</p>
-                            <div className="preview-buttons">
-                                <Link to="/registration-prompt" className="preview-button registration">
-                                    📋 ユーザー登録促進ページ
-                                </Link>
-                                <Link to="/error" state={{ message: 'テスト用エラーメッセージ' }} className="preview-button error">
-                                    ⚠️ エラーページ
-                                </Link>
-                            </div>
-                        </div>
                     </div>
                 ) : (
                     <div className="admin-contents">

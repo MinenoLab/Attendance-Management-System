@@ -64,3 +64,34 @@
     transform       : translateY(-2px);
     box-shadow      : 0 4px 10px rgba(61, 139, 253, 0.3);
 }
+
+/* 縦型モニター対応（portrait orientation）*/
+@media (orientation: portrait) and (min-height: 800px) {
+    .error-box {
+        padding  : 80px 100px;
+        max-width: 900px;
+    }
+
+    .error-icon {
+        width : 120px;
+        height: 120px;
+    }
+
+    .error-title {
+        font-size: 3rem;
+    }
+
+    .error-message-label {
+        font-size: 1.5rem;
+    }
+
+    .error-message-details {
+        font-size: 1.3rem;
+        padding  : 24px;
+    }
+
+    .retry-button {
+        font-size: 1.8rem;
+        padding  : 20px 48px;
+    }
+}

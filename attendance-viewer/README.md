@@ -1,21 +1,21 @@
-# 【Raspberry Pi】カードリーダー式在籍確認システム（attendance-viewer）
+# 【Raspberry Pi】カードリーダー式在籍確認シスチE���E�Ettendance-viewer�E�E
 
-## 表示デバイスの設定手順
+## 表示チE��イスの設定手頁E
 
 ```
-# 初期システム設定
+# 初期シスチE��設宁E
 $ sudo apt update
 $ sudo apt full-upgrade -y
 
-# マウスカーソルを非表示にするパッケージのインストール
+# マウスカーソルを非表示にするパッケージのインスト�Eル
 $ sudo apt install unclutter -y
 
-# Chromiumブラウザの自動起動設定
+# Chromiumブラウザの自動起動設宁E
 $ mkdir -p ~/.config/autostart
 $ nano ~/.config/autostart/kiosk.desktop
 
-# 以下の内容を張り付けて保存
-# 注意：http://localhost/の部分は，表示したいウェブページのURLに置き換えてください．
+# 以下�E冁E��を張り付けて保孁E
+# 注意：http://localhost/の部刁E�E�E�表示したぁE��ェブ�EージのURLに置き換えてください�E�E
 [Desktop Entry]
 Type=Application
 Name=Kiosk
@@ -24,14 +24,14 @@ Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars --disable-extens
 ```
 
 ```
-# デスクトップ環境を「X11」に設定
-# 6 Advanced Options → A6 Wayland → W1 X11を選択
+# チE��クトップ環墁E��「X11」に設宁E
+# 6 Advanced Options ↁEA6 Wayland ↁEW1 X11を選抁E
 $ sudo raspi-config
 
-# 省電力機能（DPMS）の有効化
+# 省E��力機�E�E�EPMS�E��E有効匁E
 $ sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 
-# 以下の内容で全て更新して保存（既存の内容は全て削除してから貼り付け）
+# 以下�E冁E��で全て更新して保存（既存�E冁E��は全て削除してから貼り付け�E�E
 @lxpanel --profile LXDE-pi
 @pcmanfm --desktop --profile LXDE-pi
 @xscreensaver -no-splash
@@ -41,12 +41,12 @@ $ sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
 @unclutter -idle 1 -root
 @xrandr --output HDMI-1 --rotate left
 
-# 画面の90度回転と設定の維持
+# 画面の90度回転と設定�E維持E
 $ nano ~/rotation_fix.sh
 
-# 以下の内容を張り付けて保存
-# 注意：HDMI-1の部分は，環境に合わせて変更してください．
-# 補足：xrandrコマンドを実行し，connectedと表示されているポート名（例：HDMI-2, DSI-1）を使用します．
+# 以下�E冁E��を張り付けて保孁E
+# 注意：HDMI-1の部刁E�E�E�環墁E��合わせて変更してください�E�E
+# 補足�E�xrandrコマンドを実行し�E�connectedと表示されてぁE��ポ�Eト名�E�例：HDMI-2, DSI-1�E�を使用します！E
 #!/bin/bash
 export DISPLAY=:0
 while true; do
@@ -58,10 +58,10 @@ done
 
 $ chmod +x ~/rotation_fix.sh
 
-# 回転スクリプトの自動起動設定
+# 回転スクリプトの自動起動設宁E
 $ nano ~/.config/autostart/rotation_fix.desktop
 
-# 以下の内容を張り付けて保存
+# 以下�E冁E��を張り付けて保孁E
 [Desktop Entry]
 Type=Application
 Name=Rotation Fix
@@ -72,10 +72,10 @@ $ sudo reboot
 ```
 
 ```
-# 指定時間の自動スリープ＆復帰設定
+# 持E��時間�E自動スリープ！E��帰設宁E
 $ sudo crontab -e
 
-# 以下の内容を張り付けて保存
+# 以下�E冁E��を張り付けて保孁E
 0 9 * * * /sbin/reboot
 0 22 * * * DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority /usr/bin/xset dpms force off
 0 7 * * * DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority /usr/bin/xset dpms force on
@@ -83,15 +83,15 @@ $ sudo crontab -e
 $ sudo reboot
 ```
 
-再起動後，ブラウザが縦画面のキオスクモードで立ち上がり，モニターの電源を入れ直しても縦画面が維持され，指定した時間に画面がON/OFFされれば，すべての設定は完了です．
-## テスト用URL
+再起動後，ブラウザが縦画面のキオスクモードで立ち上がり，モニターの電源を入れ直しても縦画面が維持され，指定した時間に画面がON/OFFされれ�E�E�すべての設定�E完亁E��す！E
+## チE��ト用URL
 
-開発およびテスト時に特定のページを表示するためのURLパラメータ：
+開発およびチE��ト時に特定�Eペ�Eジを表示するためのURLパラメータ�E�E
 
-- **ユーザー登録促進ページ**: `/?test=registration`
-  - 4/1のデータリセット後に表示されるユーザー登録を促すページ
-  - 実際にユーザーデータを削除せずにページをプレビュー可能
+- **ユーザー登録俁E��ペ�Eジ**: `/?test=registration`
+  - 4/1のチE�EタリセチE��後に表示されるユーザー登録を俁E��ペ�Eジ
+  - 実際にユーザーチE�Eタを削除せずにペ�Eジを�Eレビュー可能
 
-- **エラーページ**: `/?test=error`
-  - エラーページのテスト表示
-  - テスト用のエラーメッセージが表示されます
+- **エラーペ�Eジ**: `/?test=error`
+  - エラーペ�EジのチE��ト表示
+  - チE��ト用のエラーメチE��ージが表示されま�
