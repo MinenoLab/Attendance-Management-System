@@ -8,6 +8,7 @@ import Modal                                                   from '../../compo
 import Medal                                                   from '../../components/Medal/Medal';
 import ContributionGraph, { MiniContributionGraph }            from '../../components/ContributionGraph/ContributionGraph';
 import EventHeader                                             from '../../components/EventHeader/EventHeader';
+import Footer                                                  from '../../components/Footer/Footer';
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
@@ -290,6 +291,8 @@ const HomePage: React.FC = () => {
                     />
                 )}
             </Modal>
+
+            <Footer />
         </div>
     );
 };
