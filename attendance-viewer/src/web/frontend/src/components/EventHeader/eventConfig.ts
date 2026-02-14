@@ -15,7 +15,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 12, startDay: 23,
         endMonth: 12, endDay: 25,
-        name: 'クリスマス',
+        name: 'Christmas',
         leftIcon: '🎄',
         rightIcon: '🎅'
     },
@@ -24,7 +24,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 12, startDay: 31,
         endMonth: 1, endDay: 6,
-        name: 'お正月',
+        name: 'New Year',
         leftIcon: '🎍',
         rightIcon: '🍊'
     },
@@ -33,7 +33,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 2, startDay: 2,
         endMonth: 2, endDay: 4,
-        name: '節分',
+        name: 'Setsubun',
         leftIcon: '👹',
         rightIcon: '🫘'
     },
@@ -42,7 +42,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 2, startDay: 13,
         endMonth: 2, endDay: 15,
-        name: 'バレンタイン',
+        name: "Valentine's Day",
         leftIcon: '💝',
         rightIcon: '🍫'
     },
@@ -51,7 +51,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 3, startDay: 2,
         endMonth: 3, endDay: 4,
-        name: 'ひな祭り',
+        name: 'Hinamatsuri',
         leftIcon: '🎎',
         rightIcon: '🌸'
     },
@@ -59,7 +59,7 @@ export const DATE_EVENTS: DateEvent[] = [
     // エイプリルフール（4/1）
     {
         startMonth: 4, startDay: 1,
-        name: 'エイプリルフール',
+        name: "April Fools' Day",
         leftIcon: '🤡',
         rightIcon: '🎭'
     },
@@ -68,7 +68,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 4, startDay: 4,
         endMonth: 4, endDay: 6,
-        name: 'イースター',
+        name: 'Easter',
         leftIcon: '🐰',
         rightIcon: '🥚'
     },
@@ -77,7 +77,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 5, startDay: 1,
         endMonth: 5, endDay: 3,
-        name: '母の日',
+        name: "Mother's Day",
         leftIcon: '🌹',
         rightIcon: '💐'
     },
@@ -86,7 +86,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 6, startDay: 15,
         endMonth: 6, endDay: 17,
-        name: '父の日',
+        name: "Father's Day",
         leftIcon: '👔',
         rightIcon: '💼'
     },
@@ -95,7 +95,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 6, startDay: 28,
         endMonth: 6, endDay: 30,
-        name: '梅雨',
+        name: 'Rainy Season',
         leftIcon: '☔',
         rightIcon: '🐌'
     },
@@ -104,7 +104,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 7, startDay: 6,
         endMonth: 7, endDay: 8,
-        name: '七夕',
+        name: 'Tanabata',
         leftIcon: '🎋',
         rightIcon: '⭐'
     },
@@ -113,7 +113,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 8, startDay: 29,
         endMonth: 8, endDay: 31,
-        name: '夏祭り',
+        name: 'Summer Festival',
         leftIcon: '🎆',
         rightIcon: '🎇'
     },
@@ -122,7 +122,7 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 9, startDay: 28,
         endMonth: 9, endDay: 30,
-        name: 'お月見',
+        name: 'Moon Viewing',
         leftIcon: '🌕',
         rightIcon: '🐇'
     },
@@ -131,24 +131,15 @@ export const DATE_EVENTS: DateEvent[] = [
     {
         startMonth: 10, startDay: 29,
         endMonth: 10, endDay: 31,
-        name: 'ハロウィン',
+        name: 'Halloween',
         leftIcon: '🎃',
         rightIcon: '👻'
-    },
-    
-    // 紅葉（11/3～11/5）
-    {
-        startMonth: 11, startDay: 3,
-        endMonth: 11, endDay: 5,
-        name: '紅葉',
-        leftIcon: '🍁',
-        rightIcon: '🍂'
     },
     
     // 峰野先生の誕生日（12/11）
     {
         startMonth: 12, startDay: 11,
-        name: '峰野先生の誕生日',
+        name: "Prof. Mineno's Birthday",
         leftIcon: '🎂',
         rightIcon: '🎉'
     },

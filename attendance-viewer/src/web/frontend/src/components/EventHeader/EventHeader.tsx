@@ -22,7 +22,7 @@ const EventHeader: React.FC<EventHeaderProps> = ({
     }, [currentTime]);
 
     // エイプリルフール用の特殊効果（タイトルを上下反転）
-    const isAprilFools = currentEvent?.name === 'エイプリルフール';
+    const isAprilFools = currentEvent?.name === "April Fools' Day";
 
     return (
         <header className="event-header">
