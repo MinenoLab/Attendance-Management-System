@@ -103,6 +103,13 @@
     background-color: #2980b9;
 }
 
+/* モバイル端末など小さい画面では日付が折り返し可能に */
+@media (max-width: 768px) {
+    .current-time {
+        white-space: normal;
+    }
+}
+
 /* モニターレベルの大きな縦幅の場合はAdminメニューを非表示 */
 @media (min-height: 900px) {
     .admin-link-button {
