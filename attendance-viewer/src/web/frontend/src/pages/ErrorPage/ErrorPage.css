@@ -10,7 +10,7 @@
     background-color: #fff;
     padding         : 40px 50px;
     border-radius   : 16px;
-    box-shadow      : 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow      : 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
     max-width       : 500px;
     border-top      : 5px solid #e74c3c;
 }
