@@ -44,6 +44,7 @@
     justify-content: center;
     line-height: 1;
     height: 1em;
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Android Emoji", "EmojiSymbols", sans-serif;
 }
 
 .header-controls {
