@@ -388,3 +388,61 @@ body {
         gap: clamp(16px, 2vw, 24px);
     }
 }
+
+/* 縦型モニター対応（portrait orientation）*/
+@media (orientation: portrait) and (min-height: 800px) {
+    /* ヘッダー部分のフォントサイズを大きく */
+    .board-title {
+        font-size: clamp(2.5rem, 5.5vmin, 8rem);
+        color: #1a252f;
+    }
+
+    .current-time {
+        font-size: clamp(1.3rem, 2.8vmin, 3.5rem);
+        color: #4a5568;
+        font-weight: 600;
+    }
+
+    .admin-link-button {
+        font-size: clamp(1.3rem, 2.6vmin, 3.2rem);
+        padding: 0.7em 1.4em;
+    }
+
+    /* テーブルヘッダー：項目名を太字、フォントサイズ大きく、色を濃く */
+    .attendance-table thead th {
+        font-size: clamp(1.8rem, 4vmin, 5rem);
+        font-weight: 700;
+        color: #ffffff;
+        background-color: #2d3748;
+        padding: clamp(8px, 1.8vmin, 18px) clamp(25px, 2.5vw, 50px);
+    }
+
+    /* テーブルセル：フォントサイズを大きく、色を黒く */
+    .attendance-table th,
+    .attendance-table td {
+        font-size: clamp(1.4rem, 2.8vmin, 3.2rem);
+        color: #1a202c;
+        padding: clamp(12px, 2vmin, 24px) clamp(20px, 2.2vw, 45px);
+    }
+
+    /* 名前セルのフォントサイズをさらに大きく */
+    .attendance-table th:nth-child(1),
+    .attendance-table td:nth-child(1) {
+        font-size: clamp(1.8rem, 4.5vmin, 5.5rem);
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    /* ステータスマーカーのサイズを大きく */
+    .status-marker {
+        width: clamp(32px, 5.5vmin, 85px);
+        height: clamp(32px, 5.5vmin, 85px);
+    }
+
+    /* データなしの場合のメッセージ */
+    .no-data-cell {
+        font-size: clamp(1.5rem, 3vmin, 3.5rem);
+        color: #4a5568;
+        font-weight: 500;
+    }
+}
