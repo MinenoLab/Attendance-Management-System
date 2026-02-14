@@ -73,7 +73,7 @@ export const DATE_EVENTS: DateEvent[] = [
         rightIcon: '🥚'
     },
     
-    // バラ/母の日（5/1～5/3）
+    // 母の日（5/1～5/3）
     {
         startMonth: 5, startDay: 1,
         endMonth: 5, endDay: 3,
@@ -114,8 +114,8 @@ export const DATE_EVENTS: DateEvent[] = [
         startMonth: 8, startDay: 29,
         endMonth: 8, endDay: 31,
         name: 'Summer Festival',
-        leftIcon: '🎆',
-        rightIcon: '🎇'
+        leftIcon: '👒',
+        rightIcon: '🍉'
     },
     
     // お月見（9/28～9/30）
