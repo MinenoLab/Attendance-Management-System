@@ -56,15 +56,6 @@ export const DATE_EVENTS: DateEvent[] = [
         rightIcon: '🌸'
     },
     
-    // 桜（3/27～3/31）
-    {
-        startMonth: 3, startDay: 27,
-        endMonth: 3, endDay: 31,
-        name: '桜の季節',
-        leftIcon: '🌸',
-        rightIcon: '🌸'
-    },
-    
     // エイプリルフール（4/1）
     {
         startMonth: 4, startDay: 1,
@@ -89,6 +80,15 @@ export const DATE_EVENTS: DateEvent[] = [
         name: '母の日',
         leftIcon: '🌹',
         rightIcon: '💐'
+    },
+    
+    // 父の日（6/15～6/17）
+    {
+        startMonth: 6, startDay: 15,
+        endMonth: 6, endDay: 17,
+        name: '父の日',
+        leftIcon: '👔',
+        rightIcon: '💼'
     },
     
     // 梅雨（6/28～6/30）
@@ -143,6 +143,14 @@ export const DATE_EVENTS: DateEvent[] = [
         name: '紅葉',
         leftIcon: '🍁',
         rightIcon: '🍂'
+    },
+    
+    // 峰野先生の誕生日（12/11）
+    {
+        startMonth: 12, startDay: 11,
+        name: '峰野先生の誕生日',
+        leftIcon: '🎂',
+        rightIcon: '🎉'
     },
 ];
 
