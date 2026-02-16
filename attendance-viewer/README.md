@@ -84,8 +84,8 @@ $ sudo reboot
 $ sudo crontab -e
 
 # 以下の内容を張り付けて保存
-0 9 * * * /sbin/reboot
-0 22 * * * DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority /usr/bin/xset dpms force off
+0 8 * * * /sbin/reboot
+0 0 * * * DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority /usr/bin/xset dpms force off
 0 7 * * * DISPLAY=:0 XAUTHORITY=/home/pi/.Xauthority /usr/bin/xset dpms force on
 
 $ sudo reboot
