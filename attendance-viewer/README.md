@@ -24,6 +24,14 @@ Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars --disable-extens
 ```
 
 ```
+# フォント設定
+$ sudo apt-get update
+$ sudo apt-get install fonts-noto-color-emoji
+$ sudo fc-cache -f -v
+$ sudo reboot
+```
+
+```
 # デスクトップ環境を「X11」に設定
 # 6 Advanced Options → A6 Wayland → W1 X11を選択
 $ sudo raspi-config

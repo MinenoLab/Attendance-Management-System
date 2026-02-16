@@ -9,6 +9,14 @@ $ sudo apt full-upgrade -y
 ```
 
 ```
+# フォント設定
+$ sudo apt-get update
+$ sudo apt-get install fonts-noto-color-emoji
+$ sudo fc-cache -f -v
+$ sudo reboot
+```
+
+```
 # Gitリポジトリのクローン
 $ git clone https://github.com/muumin1107/AttendanceManagementSystem.git
 $ pip install -r requirements.txt
