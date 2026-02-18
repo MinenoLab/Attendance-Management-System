@@ -4,7 +4,6 @@ from typing import Union
 
 class ErrorHandler:
     """エラーハンドリングとログ記録を行うクラス"""
-
     def __init__(self, log_file: str, level: int = logging.INFO):
         self.log_file = log_file
         self.level    = level
