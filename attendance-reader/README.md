@@ -20,6 +20,7 @@ $ sudo reboot
 # Gitリポジトリのクローン
 $ git clone https://github.com/muumin1107/AttendanceManagementSystem.git
 $ pip install -r requirements.txt
+$ sudo apt install -y sqlite3
 ```
 
 ```
@@ -39,6 +40,9 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
+
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable attendance-api.service
 ```
 
 ```
@@ -59,6 +63,9 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
+
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable attendance-web.service
 ```
 
 ```
@@ -79,6 +86,9 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
+
+$ sudo systemctl daemon-reload
+$ sudo systemctl enable attendance-worker.service
 ```
 
 ```
