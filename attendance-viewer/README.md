@@ -20,7 +20,7 @@ $ nano ~/.config/autostart/kiosk.desktop
 Type=Application
 Name=Kiosk
 Comment=Kiosk mode browser
-Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars --disable-extensions http://localhost/
+Exec=chromium-browser --kiosk --noerrdialogs --disable-infobars --disable-extensions https://main.XXX.amplifyapp.com/
 ```
 
 ```
@@ -37,7 +37,8 @@ $ sudo reboot
 $ sudo raspi-config
 
 # 省電力機能（DPMS）の有効化
-$ sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+$ mkdir /etc/xdg/lxsession/LXDE-pi/
+$ nano /etc/xdg/lxsession/LXDE-pi/autostart
 
 # 以下の内容で全て更新して保存（既存の内容は全て削除してから貼り付け）
 @lxpanel --profile LXDE-pi
