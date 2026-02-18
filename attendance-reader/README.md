@@ -18,7 +18,7 @@ $ sudo reboot
 
 ```
 # Gitリポジトリのクローン
-$ git clone https://github.com/muumin1107/AttendanceManagementSystem.git
+$ git clone https://github.com/MinenoLab/Attendance-Management-System.git
 $ pip install -r requirements.txt
 $ sudo apt install -y sqlite3
 ```
