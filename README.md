@@ -14,7 +14,7 @@
 
 ```
 # RaspberryPiにSSHで接続する（認証情報は別途資料参照）
-$ cd ~/attendance-reader/web/frontend/
+$ cd /home/pi/Attendance-Management-System/attendance-reader/src/web/frontend/
 $ sudo nano .env
 
 REACT_APP_API_BASE_URL=http://XXX.XXX.XXX.XXX:XXX/XXX
