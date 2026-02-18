@@ -33,8 +33,8 @@ After=network.target
 
 [Service]
 User=pi
-WorkingDirectory=/home/pi/AttendanceManagementSystem/attendance-reader
-ExecStart=/home/pi/AttendanceManagementSystem/attendance-reader/start_api_server.sh
+WorkingDirectory=/home/pi/Attendance-Management-System/attendance-reader
+ExecStart=/home/pi/Attendance-Management-System/attendance-reader/start_api_server.sh
 Restart=always
 
 [Install]
@@ -53,8 +53,8 @@ Wants=network-online.target
 
 [Service]
 User=pi
-WorkingDirectory=/home/pi/AttendanceManagementSystem/attendance-reader
-ExecStart=/home/pi/AttendanceManagementSystem/attendance-reader/start_web_server.sh
+WorkingDirectory=/home/pi/Attendance-Management-System/attendance-reader
+ExecStart=/home/pi/Attendance-Management-System/attendance-reader/start_web_server.sh
 Restart=always
 
 [Install]
@@ -72,8 +72,8 @@ After=network.target
 
 [Service]
 User=pi
-WorkingDirectory=/home/pi/AttendanceManagementSystem/attendance-reader
-ExecStart=/home/pi/AttendanceManagementSystem/attendance-reader/start_worker.sh
+WorkingDirectory=/home/pi/Attendance-Management-System/attendance-reader
+ExecStart=/home/pi/Attendance-Management-System/attendance-reader/start_worker.sh
 Restart=always
 RestartSec=5
 
@@ -89,6 +89,8 @@ $ crontab -e
 0 1 * * * /home/pi/attendance_system/start_init_db.sh
 ```
 
+※ `/home/pi/Attendace-Management-System/attendance-reader/src/data/.init_db.py`を初回だけ手動で実行する
+
 ```
 # 再起動設定
 $ sudo crontab -e
@@ -98,6 +100,8 @@ $ sudo crontab -e
 
 $ sudo reboot
 ```
+
+※ `/home/pi/Attendace-Management-System/attendance-reader/src/app/main.py`のFastAPIサーバーのCORS設定の部分を変更する
 
 ## 補足：カードリーダーの設定方法
 
