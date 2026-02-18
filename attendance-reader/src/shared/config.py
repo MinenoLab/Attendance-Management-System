@@ -1,7 +1,7 @@
 from pathlib import Path
 
 # プロジェクトルートディレクトリ
-BASE_DIR = "/home/pi/attendance_system"
+BASE_DIR = "/home/pi/Attenadnce-Management-System/attendance-reader"
 
 # ログファイルのパス
 LOG_PATHS = {
