@@ -93,3 +93,54 @@ $ sudo reboot
 ```
 
 再起動後，ブラウザが縦画面のキオスクモードで立ち上がり，モニターの電源を入れ直しても縦画面が維持され，指定した時間に画面がON/OFFされれば，すべての設定は完了です．
+
+## 補足：時刻同期（Chrony）
+```
+$ sudo systemctl stop systemd-timesyncd 2>/dev/null
+$ sudo systemctl disable systemd-timesyncd 2>/dev/null
+```
+
+```
+$ sudo apt update
+$ sudo apt install -y chrony
+```
+
+```
+# これは打った覚えないけどあいつ（GPT）が打てって言ってる
+$ sudo bash -c 'cat > /etc/chrony/chrony.conf << EOF
+pool ntp.nict.jp iburst
+driftfile /var/lib/chrony/drift
+makestep 1.0 3
+rtcsync
+logdir /var/log/chrony
+EOF'
+```
+
+```
+$ sudo systemctl enable chrony
+$ sudo systemctl restart chrony
+
+$ sudo chronyc makestep # 初回のみ実行
+```
+
+```
+$ chronyc tracking
+
+# 正常例
+Reference ID    : XXX (ntp-b3.nict.go.jp)
+Stratum         : 2
+...
+Leap status     : Normal
+```
+
+```
+$ chronyc sources -v
+
+# 正常例
+...
+^* ntp-b3.nict.go.jp
+```
+
+```
+$ sudo reboot
+```
