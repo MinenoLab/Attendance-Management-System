@@ -51,6 +51,7 @@ $ sudo reboot
 # スクリプトの作成
 $ nano ~/start_kiosk.sh
 ```
+
 以下の内容を書き込んでください
 
 ```
