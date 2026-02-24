@@ -93,8 +93,7 @@ configure_system_and_launch() {
 
     # 5. Kioskブラウザの実行（Keyringプロンプト抑止フラグ付き）
     echo "Launching Chromium..."
-    # パスワードストアをbasicに指定し，Keyringのプロンプトを抑止する
-    chromium --kiosk --noerrdialogs --disable-infobars --disable-extensions --password-store=basic "https://main.xxxx.amplifyapp.com/"
+    chromium --kiosk --noerrdialogs --disable-infobars --disable-extensions --password-store=basic "https://main.XXX.amplifyapp.com/"
 }
 
 configure_system_and_launch
