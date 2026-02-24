@@ -50,8 +50,10 @@ $ sudo reboot
 ```
 # スクリプトの作成
 $ nano ~/start_kiosk.sh
+```
+以下の内容を書き込んでください
 
-# 以下のスクリプトをすべて書き込んでください
+```
 #!/bin/bash
 # Raspberry Pi 5 Kiosk Mode Unified Startup Script
 
@@ -129,6 +131,7 @@ Comment=Unified Kiosk Startup Script
 ```
 $ crontab -e
 
+# 以下の内容を書き込んでください
 # 毎日午前8時にシステムを再起動し，クリーンな状態で稼働を開始する
 0 8 * * * /sbin/reboot
 
