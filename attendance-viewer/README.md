@@ -37,6 +37,7 @@ $ sudo raspi-config
 # 
 ```
 
+実行スクリプト
 ```
 $ nano ~/start_kiosk.sh
 
