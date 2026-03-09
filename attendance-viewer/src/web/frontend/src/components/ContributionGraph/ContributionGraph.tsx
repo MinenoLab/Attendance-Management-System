@@ -1,7 +1,6 @@
 import React from 'react';
 import './ContributionGraph.css';
 
-// コンポーネントのプロパティの型定義
 interface ContributionGraphProps {
     userName : string;
     startDate: string; // 'YYYY-MM-DD' 形式
@@ -10,7 +9,6 @@ interface ContributionGraphProps {
 }
 
 const MONTH_LABELS  = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-// const WEEKS_TO_SHOW = 53;
 
 const getColorForTime = (minutes: number): string => {
     if (minutes > 480) return 'color-level-4'; // 8時間以上
@@ -20,7 +18,6 @@ const getColorForTime = (minutes: number): string => {
     return 'color-level-0';                    // 2時間未満
 };
 
-// タイムゾーン問題を回避して 'YYYY-MM-DD' 形式の文字列を生成する関数
 const toISODateString = (date: Date): string => {
     const y = date.getFullYear();
     const m = String(date.getMonth() + 1).padStart(2, '0');
@@ -29,55 +26,72 @@ const toISODateString = (date: Date): string => {
 };
 
 const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDate, dailyData, userName }) => {
+    
     const getCalendarData = () => {
         const weeks: Date[][]                                         = [];
         const monthLabelPositions: { label: string; index: number }[] = [];
         
-        // startDateを解析して開始日を取得
         const [startYear, startMonth, startDay] = startDate.split('-').map(Number);
         const firstDayOfPeriod = new Date(startYear, startMonth - 1, startDay);
-        const dayOfWeek = firstDayOfPeriod.getDay();
-
-        // 開始日の前の日曜日を計算
-        const startDateObj = new Date(firstDayOfPeriod);
-        startDateObj.setDate(firstDayOfPeriod.getDate() - dayOfWeek);
         
-        // endDateを解析して終了日を取得
         const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
         const lastDayOfPeriod = new Date(endYear, endMonth - 1, endDay);
-
-        // 終了日の次の土曜日を計算し，総日数から動的に週数を計算します
-        const endDayOfWeek = lastDayOfPeriod.getDay();
-        const endDateObj = new Date(lastDayOfPeriod);
-        endDateObj.setDate(lastDayOfPeriod.getDate() + (6 - endDayOfWeek));
-
-        const totalDays = Math.round((endDateObj.getTime() - startDateObj.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-        const dynamicWeeksToShow = Math.max(1, Math.floor(totalDays / 7));
         
+        // カレンダーの描画開始位置（最初の日曜日）
+        const startDateObj = new Date(firstDayOfPeriod);
+        startDateObj.setDate(firstDayOfPeriod.getDate() - firstDayOfPeriod.getDay());
+        
+        // カレンダーの描画終了位置（最後の土曜日）
+        const endDateObj = new Date(lastDayOfPeriod);
+        endDateObj.setDate(lastDayOfPeriod.getDate() + (6 - lastDayOfPeriod.getDay()));
+
+        let currentDate = new Date(startDateObj);
+        let currentWeek: Date[] = Array(7).fill(new Date(NaN)); // 空の1週間（7マス）を用意
         let lastMonth = -1;
 
-        for (let weekIndex = 0; weekIndex < dynamicWeeksToShow; weekIndex++) {
-            const week: Date[] = [];
-            for (let dayOfWeekIndex = 0; dayOfWeekIndex < 7; dayOfWeekIndex++) {
-                const currentDate = new Date(startDateObj);
-                currentDate.setDate(startDateObj.getDate() + weekIndex * 7 + dayOfWeekIndex);
-                
-                // 期間外（開始日より前または終了日より後）なら空のDateオブジェクトを追加
-                if (currentDate < firstDayOfPeriod || currentDate > lastDayOfPeriod) {
-                    week.push(new Date(NaN)); // 無効な日付として扱う
-                } else {
-                    week.push(currentDate);
-                }
-                
-                const month = currentDate.getMonth();
-                // 期間内の日付で、かつ週の最初の日（日曜日）で月が変わった場合にラベルを追加
-                if (month !== lastMonth && dayOfWeekIndex === 0 && 
-                    currentDate >= firstDayOfPeriod && currentDate <= lastDayOfPeriod) {
-                    monthLabelPositions.push({ label: MONTH_LABELS[month], index: weekIndex });
-                    lastMonth = month;
-                }
+        // 1日ずつループしてカレンダーを組み立てる
+        while (currentDate <= endDateObj) {
+            const dayOfWeek   = currentDate.getDay();
+            const month       = currentDate.getMonth();
+            const dateNum     = currentDate.getDate();
+            const isValidDate = currentDate >= firstDayOfPeriod && currentDate <= lastDayOfPeriod;
+            
+            // 現在の列にすでにデータが入っているかチェック
+            const hasDataInCurrentWeek = currentWeek.some(d => !isNaN(d.getTime()));
+
+            // 【UI改善の核心部分】
+            // 期間内の有効な日付で、新しい月の「1日」であり、かつ週の途中（日曜日以外）の場合
+            // 前の月のデータが入っている列を強制的に終了し、新しく右にズラした列を用意する
+            if (isValidDate && dateNum === 1 && dayOfWeek !== 0 && hasDataInCurrentWeek) {
+                weeks.push([...currentWeek]);
+                currentWeek = Array(7).fill(new Date(NaN));
             }
-            weeks.push(week);
+
+            // ラベルの配置判定
+            if (isValidDate && month !== lastMonth) {
+                // 新しい月が始まったら、次に配置される列のインデックスにラベルを登録
+                monthLabelPositions.push({ label: MONTH_LABELS[month], index: weeks.length });
+                lastMonth = month;
+            }
+
+            // 期間内の日付なら、現在の週の該当曜日の位置にセット
+            if (isValidDate) {
+                currentWeek[dayOfWeek] = new Date(currentDate);
+            }
+
+            // 土曜日まできたら、その列を確定させて次の列へ
+            if (dayOfWeek === 6) {
+                weeks.push([...currentWeek]);
+                currentWeek = Array(7).fill(new Date(NaN));
+            }
+
+            // 翌日へ進む
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        // ループ終了後、まだ確定されていないデータが残っていれば追加
+        if (currentWeek.some(d => !isNaN(d.getTime()))) {
+            weeks.push([...currentWeek]);
         }
 
         return { weeks, monthLabelPositions };
@@ -87,7 +101,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
 
     return (
         <div className="graph-container-yearly" style={{ overflowX: 'auto', paddingBottom: '16px' }}>
-            <h3 className="graph-title" style={{ position: 'sticky', left: 0 }}>{userName} - {startDate} 〜 {endDate}</h3>
+            <h3 className="graph-title" style={{ position: 'sticky', left: 0, zIndex: 2, backgroundColor: '#fff' }}>{userName} - {startDate} 〜 {endDate}</h3>
             <div className="graph-grid" style={{ minWidth: 'max-content', paddingRight: '24px' }}>
                 <div className="months-row" style={{ position: 'relative', height: '20px' }}>
                     {monthLabelPositions.map(({ label, index }) => (
@@ -97,7 +111,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                     ))}
                 </div>
                 <div className="days-and-cells">
-                    <div className="days-col">
+                    <div className="days-col" style={{ position: 'sticky', left: 0, backgroundColor: '#fff', zIndex: 1 }}>
                         <span>Sun</span>
                         <span>Mon</span>
                         <span>Tue</span>
@@ -110,12 +124,10 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                         {weeks.map((week, weekIndex) => (
                             <div key={weekIndex} className="week-col">
                                 {week.map((date, dayIndex) => {
-                                    // 無効な日付の場合は空のセルを表示
                                     if (isNaN(date.getTime())) {
                                         return <div key={dayIndex} className="cell empty" />;
                                     }
 
-                                    // タイムゾーン問題を回避する関数を使用
                                     const dateString = toISODateString(date);
                                     const minutes    = dailyData[dateString] || 0;
                                     const colorClass = getColorForTime(minutes);
@@ -128,7 +140,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                     </div>
                 </div>
             </div>
-            <div className="legend">
+            <div className="legend" style={{ position: 'sticky', left: 0, marginTop: '8px' }}>
                 <span>Less</span>
                     <div className="cell color-level-0"></div>
                     <div className="cell color-level-1"></div>
@@ -141,7 +153,6 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
     );
 };
 
-// 小さなインライン版のContributionGraphコンポーネント
 interface MiniContributionGraphProps {
     attendanceData: { [date: string]: number };
     className?: string;
@@ -150,7 +161,7 @@ interface MiniContributionGraphProps {
 export const MiniContributionGraph: React.FC<MiniContributionGraphProps> = ({attendanceData, className = ''}) => {
     const getLast7Days = () => {
         const days = [];
-        for (let i = 7; i >= 1; i--) { // 当日を除く、昨日から7日前まで
+        for (let i = 7; i >= 1; i--) { 
             const date = new Date();
             date.setDate(date.getDate() - i);
             days.push(date.toISOString().split('T')[0]);
