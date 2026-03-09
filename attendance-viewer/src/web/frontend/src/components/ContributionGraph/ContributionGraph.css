@@ -101,6 +101,19 @@
     border          : none;
 }
 
+.cell.today-highlight {
+    outline: 2px solid #ff0000;
+    outline-offset: 1px;
+    position: relative;
+    z-index: 5;
+    border-radius: 3px;
+}
+
+.cell.today-highlight:hover {
+    transform: scale(1.2);
+    outline-width: 3px;
+}
+
 .cell.color-level-0 { background-color: #ebedf0; }
 .cell.color-level-1 { background-color: #9be9a8; }
 .cell.color-level-2 { background-color: #40c463; }
