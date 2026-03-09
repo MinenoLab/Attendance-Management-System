@@ -277,6 +277,24 @@ const HomePage: React.FC = () => {
             </main>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
+                {/*任意の年月日を指定可能なカレンダー形式のプルダウンUIの追加*/}
+                {selectedUser && (
+                    <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                        <input 
+                            type="date" 
+                            value={startDate} 
+                            onChange={(e) => setStartDate(e.target.value)} 
+                            style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: 'pointer' }}
+                        />
+                        <span style={{ fontWeight: 'bold' }}> 〜 </span>
+                        <input 
+                            type="date" 
+                            value={endDate} 
+                            onChange={(e) => setEndDate(e.target.value)} 
+                            style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: 'pointer' }}
+                        />
+                    </div>
+                )}
                 {(isSnapshotLoading || snapshotError) ? (
                     <div className="modal-status-container">
                         {isSnapshotLoading && <p>Loading graph...</p>}
