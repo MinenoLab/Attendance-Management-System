@@ -10,7 +10,7 @@ interface ContributionGraphProps {
 }
 
 const MONTH_LABELS  = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const WEEKS_TO_SHOW = 53;
+//const WEEKS_TO_SHOW = 53;
 
 const getColorForTime = (minutes: number): string => {
     if (minutes > 480) return 'color-level-4'; // 8時間以上
@@ -45,10 +45,19 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
         // endDateを解析して終了日を取得
         const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
         const lastDayOfPeriod = new Date(endYear, endMonth - 1, endDay);
+
+        // 終了日の次の土曜日を計算（カレンダーの描画終了地点）
+        const endDayOfWeek = lastDayOfPeriod.getDay();
+        const endDateObj = new Date(lastDayOfPeriod);
+        endDateObj.setDate(lastDayOfPeriod.getDate() + (6 - endDayOfWeek));
+
+        // 開始日から終了日までの正確な総日数を計算し、必要な「週数」を動的に割り出し
+        const totalDays = Math.round((endDateObj.getTime() - startDateObj.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        const dynamicWeeksToShow = Math.max(1, Math.floor(totalDays / 7));
         
         let lastMonth = -1;
 
-        for (let weekIndex = 0; weekIndex < WEEKS_TO_SHOW; weekIndex++) {
+        for (let weekIndex = 0; weekIndex < dynamicWeeksToShow; weekIndex++) {
             const week: Date[] = [];
             for (let dayOfWeekIndex = 0; dayOfWeekIndex < 7; dayOfWeekIndex++) {
                 const currentDate = new Date(startDateObj);
@@ -77,13 +86,25 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
 
     const { weeks, monthLabelPositions } = getCalendarData();
 
+    // 週の数に合わせて列を動的に生成し、最小幅（15px）を強制
+    const dynamicGridStyle: React.CSSProperties = {
+        display: 'grid',
+        gridTemplateColumns: `repeat(${weeks.length}, minmax(15px, 1fr))`
+    };
+
     return (
-        <div className="graph-container-yearly">
-            <h3 className="graph-title">{userName} - {startDate} 〜 {endDate}</h3>
-            <div className="graph-grid">
-                <div className="months-row">
+        // overflowX と padding を追加し、グラフ自体がコンポーネント内で安全にスクロールできるようにします
+        <div className="graph-container-yearly" style={{ overflowX: 'auto', padding: '16px 8px' }}>
+            {/* 見出しはスクロールしても左端に残るように sticky を設定 */}
+            <h3 className="graph-title" style={{ position: 'sticky', left: '0' }}>{userName} - {startDate} 〜 {endDate}</h3>
+            
+            {/* minWidth: 'max-content' を指定し、中身が強制的に圧縮されるのを防ぐ */}
+            <div className="graph-grid" style={{ minWidth: 'max-content', padding: '8px 0' }}>
+                {/* 動的生成したグリッドスタイルを適用 */}
+                <div className="months-row" style={dynamicGridStyle}>
                     {monthLabelPositions.map(({ label, index }) => (
-                        <div key={label} className="month-label" style={{ gridColumnStart: index + 1 }}>
+                        // overflow: 'visible' で月の文字が見切れないように保護
+                        <div key={label} className="month-label" style={{ gridColumnStart: index + 1, overflow: 'visible' }}>
                             {label}
                         </div>
                     ))}

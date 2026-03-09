@@ -301,18 +301,12 @@ const HomePage: React.FC = () => {
                         {snapshotError && <p className="error-message">Failed to load graph: {snapshotError.message}</p>}
                     </div>
                 ) : (
-                    selectedUser && (
-                        // 変更: グラフ上部の「月」などのラベルが隠れないように、
-                        // 上下に十分な余白（padding）を持たせ、はみ出しを許可します．
-                        <div style={{ padding: '24px 0', overflow: 'visible' }}>
-                            <ContributionGraph
-                                userName={selectedUser.name}
-                                startDate={startDate}
-                                endDate={endDate}
-                                dailyData={snapshotData?.[selectedUser.name] || {}}
-                            />
-                        </div>
-                    )
+                    selectedUser && <ContributionGraph
+                        userName={selectedUser.name}
+                        startDate={startDate}
+                        endDate={endDate}
+                        dailyData={snapshotData?.[selectedUser.name] || {}}
+                    />
                 )}
             </Modal>
 
