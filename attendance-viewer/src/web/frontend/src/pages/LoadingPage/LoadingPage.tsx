@@ -56,7 +56,7 @@ const LoadingPage = () => {
 
     return (
         <div className="loading-container">
-            <h1>読み込み中...</h1>
+            <h1>読み込んでますよ...</h1>
             <p>ページを準備しています</p>
             <div className="spinner" />
         </div>
