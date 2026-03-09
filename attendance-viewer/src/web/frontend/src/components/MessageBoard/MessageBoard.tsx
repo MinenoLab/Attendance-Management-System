@@ -14,10 +14,6 @@ interface MessageBoardProps {
 }
 
 const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
-    if (!messages || messages.length === 0) {
-        return null;
-    }
-
     // 日付フォーマットのヘルパー関数
     const formatTime = (dateString: string) => {
         const date = new Date(dateString);
@@ -36,17 +32,25 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
                 <h2 className="message-board-title">Information Board</h2>
             </div>
             <div className="message-board-list">
-                {messages.map((msg) => (
-                    <div key={msg.id} className={`message-card priority-${msg.priority}`}>
-                        <div className="message-header">
-                            <span className="message-sender">{msg.sender}</span>
-                            <span className="message-time">{formatTime(msg.createdAt)}</span>
-                        </div>
-                        <div className="message-content">
-                            {msg.content}
-                        </div>
+                {(!messages || messages.length === 0) ? (
+                    // メッセージがない場合のプレースホルダー表示
+                    <div className="message-empty">
+                        現在，メッセージはありません．
                     </div>
-                ))}
+                ) : (
+                    // メッセージがある場合は通常通りマッピング
+                    messages.map((msg) => (
+                        <div key={msg.id} className={`message-card priority-${msg.priority}`}>
+                            <div className="message-header">
+                                <span className="message-sender">{msg.sender}</span>
+                                <span className="message-time">{formatTime(msg.createdAt)}</span>
+                            </div>
+                            <div className="message-content">
+                                {msg.content}
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );

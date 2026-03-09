@@ -96,3 +96,13 @@
     line-height: 1.4;
     white-space: pre-wrap; /* 改行を保持 */
 }
+
+.message-empty {
+    padding: 20px;
+    text-align: center;
+    color: #868e96;
+    font-size: 0.95rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px dashed #ced4da;
+}
