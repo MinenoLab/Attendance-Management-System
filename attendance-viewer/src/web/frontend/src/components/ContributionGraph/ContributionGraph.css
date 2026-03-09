@@ -68,6 +68,32 @@
     background-color: #ebedf0;
     border-radius   : 3px;
     border          : 1px solid rgba(27, 31, 35, 0.04);
+
+    transition      : transform 0.15s ease, box-shadow 0.15s ease;
+    cursor          : pointer;
+}
+
+.cell:not(.empty):hover {
+    transform  : scale(1.2);
+    box-shadow : 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index    : 10;
+    position   : relative;
+    border     : 1px solid rgba(27, 31, 35, 0.2);
+}
+
+.graph-container-yearly::-webkit-scrollbar {
+    height: 8px;
+}
+.graph-container-yearly::-webkit-scrollbar-track {
+    background   : #f1f1f1;
+    border-radius: 4px;
+}
+.graph-container-yearly::-webkit-scrollbar-thumb {
+    background   : #c1c1c1;
+    border-radius: 4px;
+}
+.graph-container-yearly::-webkit-scrollbar-thumb:hover {
+    background   : #a8a8a8;
 }
 
 .cell.empty {
