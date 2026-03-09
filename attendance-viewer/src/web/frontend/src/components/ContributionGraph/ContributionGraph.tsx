@@ -89,10 +89,9 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
         <div className="graph-container-yearly" style={{ overflowX: 'auto', paddingBottom: '16px' }}>
             <h3 className="graph-title" style={{ position: 'sticky', left: 0 }}>{userName} - {startDate} 〜 {endDate}</h3>
             <div className="graph-grid" style={{ minWidth: 'max-content', paddingRight: '24px' }}>
-                <div className="months-row">
+                <div className="months-row" style={{ position: 'relative', height: '20px' }}>
                     {monthLabelPositions.map(({ label, index }) => (
-                        // 1週の幅（19px）× インデックスで絶対位置を指定します
-                        <div key={label} className="month-label" style={{ left: `${index * 19}px` }}>
+                        <div key={label} className="month-label" style={{ position: 'absolute', top: 0, left: `${index * 19}px` }}>
                             {label}
                         </div>
                     ))}
