@@ -10,7 +10,6 @@ interface ContributionGraphProps {
 }
 
 const MONTH_LABELS  = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-// const WEEKS_TO_SHOW = 53;
 
 const getColorForTime = (minutes: number): string => {
     if (minutes > 480) return 'color-level-4'; // 8時間以上
@@ -56,7 +55,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
 
         let lastMonth = -1;
 
-        for (let weekIndex = 0; weekIndex < WEEKS_TO_SHOW; weekIndex++) {
+        for (let weekIndex = 0; weekIndex < dynamicWeeksToShow; weekIndex++) {
             const week: Date[] = [];
             for (let dayOfWeekIndex = 0; dayOfWeekIndex < 7; dayOfWeekIndex++) {
                 const currentDate = new Date(startDateObj);
@@ -97,7 +96,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                     ))}
                 </div>
                 <div className="days-and-cells">
-                    <div className="days-col">
+                    <div className="days-col" style={{ position: 'sticky', left: 0, backgroundColor: '#fff', zIndex: 1 }}>
                         <span>Sun</span>
                         <span>Mon</span>
                         <span>Tue</span>
@@ -128,7 +127,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                     </div>
                 </div>
             </div>
-            <div className="legend">
+            <div className="legend" style={{ position: 'sticky', left: 0, marginTop: '8px' }}>
                 <span>Less</span>
                     <div className="cell color-level-0"></div>
                     <div className="cell color-level-1"></div>
