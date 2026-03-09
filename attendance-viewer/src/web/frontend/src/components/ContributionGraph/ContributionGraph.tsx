@@ -132,11 +132,6 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                                     const minutes    = dailyData[dateString] || 0;
                                     const colorClass = getColorForTime(minutes);
 
-                                    const today = new Date();
-                                    const isToday = date.getDate() === today.getDate() &&
-                                                    date.getMonth() === today.getMonth() &&
-                                                    date.getFullYear() === today.getFullYear();
-
                                     const hours = Math.floor(minutes / 60);
                                     const mins  = minutes % 60;
                                     const title = `${dateString}\n滞在時間: ${hours}時間 ${mins}分`;
