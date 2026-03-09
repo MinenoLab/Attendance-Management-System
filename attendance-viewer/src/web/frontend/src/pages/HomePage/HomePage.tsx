@@ -252,7 +252,7 @@ const HomePage: React.FC = () => {
                 adminLinkState={{ allUsers: passedState?.allUsers }}
             />
 
-            <MessageBoard messages={Messages} />
+            <MessageBoard messages={messages} />
 
             <main className="table-container">
                 <table className="attendance-table">
