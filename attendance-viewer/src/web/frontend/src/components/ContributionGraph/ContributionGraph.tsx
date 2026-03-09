@@ -131,7 +131,10 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                                     const dateString = toISODateString(date);
                                     const minutes    = dailyData[dateString] || 0;
                                     const colorClass = getColorForTime(minutes);
-                                    const title      = `${dateString}\n滞在時間: ${minutes}分`;
+
+                                    const hours = Math.floor(minutes / 60);
+                                    const mins  = minutes % 60;
+                                    const title = `${dateString}\n滞在時間: ${hours}時間 ${mins}分`;
 
                                     return <div key={dayIndex} className={`cell ${colorClass}`} title={title} />;
                                 })}
