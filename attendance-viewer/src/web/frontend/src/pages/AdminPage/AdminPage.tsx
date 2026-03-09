@@ -3,6 +3,7 @@ import { useLocation }                     from 'react-router-dom';
 import { fetchAuthSession }                from '@aws-amplify/auth';
 import { useAuthenticator }                from '@aws-amplify/ui-react';
 import { useUpdateAttendanceAdmin }        from '../../hooks/useUpdateAttendanceAdmin';
+import { useSendMessageAdmin }             from '../../hooks/useSendMessageAdmin';
 import type { UserStatus, UserIdentifier } from '../../types/attendance';
 import { LabMessage }                      from '../../components/MessageBoard/MessageBoard';
 import './AdminPage.css';
@@ -16,12 +17,18 @@ const AdminPage = () => {
     const [targetName, setTargetName]                       = useState<string>('');
     const [targetStatus, setTargetStatus]                   = useState<UserStatus>('clock_in');
 
-    // メッセージ動作用のStateを追加
+    // カスタムフックから送信関数と各ステータスを取得
+    const { 
+        sendMessage, 
+        isLoading: isMsgSending, 
+        error: msgError, 
+        isSuccess: msgSuccess 
+    } = useSendMessageAdmin();
+
+    // フォーム入力用のState
     const [msgSender, setMsgSender]         = useState<string>('');
     const [msgPriority, setMsgPriority]     = useState<LabMessage['priority']>('info');
     const [msgContent, setMsgContent]       = useState<string>('');
-    const [isMsgSending, setIsMsgSending]   = useState<boolean>(false);
-    const [msgSuccess, setMsgSuccess]       = useState<boolean>(false);
     
     // 管理者かどうかを判定するためのuseEffect
     useEffect(() => {
@@ -62,27 +69,20 @@ const AdminPage = () => {
             return;
         }
 
-        setIsMsgSending(true);
-        setMsgSuccess(false);
-
         try {
-            // [TODO] ここにSocketやAPIを用いたバックエンドへの送信処理を実装します
-            // await sendMessageToBackend({ sender: msgSender, priority: msgPriority, content: msgContent });
+            // カスタムフックの送信関数を呼び出す
+            await sendMessage(msgSender, msgPriority, msgContent);
             
-            // 現在はUIの動作確認用に1秒間のダミー遅延を入れています
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            setMsgSuccess(true);
-            setMsgContent(''); // 連続して送れるように、成功時は内容のみクリアする
-            setTimeout(() => setMsgSuccess(false), 3000); // 3秒後に成功メッセージを消す
+            // 成功した場合は、次のメッセージをすぐに打てるようにテキストエリアだけクリアする
+            setMsgContent(''); 
         } catch (err) {
-            alert("メッセージの配信に失敗しました．");
-        } finally {
-            setIsMsgSending(false);
+            // エラーは useSendMessageAdmin フック内で処理され、msgErrorにセットされるため、
+            // ここではコンソールへの出力にとどめるか、そのまま握りつぶしてもUIにエラーが表示されます
+            console.error("メッセージ送信エラー:", err);
         }
     };
 
-return (
+    return (
         <div className="admin-page-wrapper">
             <main className="admin-page-container">
                 <header className="admin-header">
@@ -148,7 +148,7 @@ return (
                                         type="text" 
                                         value={msgSender} 
                                         onChange={(e) => setMsgSender(e.target.value)} 
-                                        placeholder="例: 峯野，事務" 
+                                        placeholder="例: 峰野，事務" 
                                         required
                                     />
                                 </div>
@@ -178,11 +178,14 @@ return (
                                     />
                                 </div>
 
+                                {/* ★ isMsgSending を使って送信中の連打を防止 */}
                                 <button type="submit" className="update-button message-submit-btn" disabled={isMsgSending}>
                                     {isMsgSending ? '送信中...' : '掲示板に送信する'}
                                 </button>
                             </form>
+                            {/* ★ カスタムフックが返してくる成功・エラー状態を表示 */}
                             {msgSuccess && <p className="success-message">メッセージを配信しました．</p>}
+                            {msgError && <p className="error-message">エラー: {msgError.message}</p>}
                         </section>
 
                     </div>

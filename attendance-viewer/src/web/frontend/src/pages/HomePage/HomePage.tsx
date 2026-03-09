@@ -9,7 +9,8 @@ import Medal                                                   from '../../compo
 import ContributionGraph, { MiniContributionGraph }            from '../../components/ContributionGraph/ContributionGraph';
 import EventHeader                                             from '../../components/EventHeader/EventHeader';
 import Footer                                                  from '../../components/Footer/Footer';
-import MessageBoard, { LabMessage }                            from '../../components/MessageBoard/MessageBoard';
+import { useMessageSocket }                                    from '../../hooks/useMessageSocket';
+import MessageBoard                                            from '../../components/MessageBoard/MessageBoard';
 import './HomePage.css';
 
 // 在室状況の表示用ステータス
@@ -115,6 +116,9 @@ const HomePage: React.FC = () => {
 
     // リアルタイムで更新されるユーザーリストを取得するカスタムフック
     const { users: realTimeUsers, error: socketError } = useAttendanceSocket(initialUsers);
+
+    // リアルタイムで更新されるメッセージリストを取得するカスタムフック
+    const { messages, error: messageSocketError } = useMessageSocket();
 
     // ユーザーリストを学年と名前でソートするメモ化された値
     const sortedUsers = useMemo(() => {
@@ -239,25 +243,6 @@ const HomePage: React.FC = () => {
         setSelectedUser(null);
     };
 
-    // 表示テスト用のダミーデータ
-    // 実運用では useGetMessages などのカスタムフックを作成し、APIやSocketから取得します
-    const dummyMessages: LabMessage[] = [
-        {
-            id: '1',
-            sender: '峰野',
-            content: '急遽予定が入ったため，本日の全体ミーティングを13:00から15:00に変更します．各自確認をお願いします．',
-            createdAt: new Date().toISOString(),
-            priority: 'urgent'
-        },
-        {
-            id: '2',
-            sender: '事務',
-            content: '今週末にネットワークメンテナンスが予定されています．',
-            createdAt: new Date(Date.now() - 3600000).toISOString(),
-            priority: 'info'
-        }
-    ];
-
     return (
         <div className="home-page-container">
             <EventHeader
@@ -267,8 +252,8 @@ const HomePage: React.FC = () => {
                 adminLinkState={{ allUsers: passedState?.allUsers }}
             />
 
-            <MessageBoard messages={dummyMessages} />
-            
+            <MessageBoard messages={Messages} />
+
             <main className="table-container">
                 <table className="attendance-table">
                     <thead>
