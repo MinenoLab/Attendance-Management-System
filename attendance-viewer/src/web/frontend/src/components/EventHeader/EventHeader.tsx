@@ -39,7 +39,7 @@ const EventHeader: React.FC<EventHeaderProps> = ({
                 </p>
                 {showAdminLink && (
                     <Link to="/admin" state={adminLinkState} className="admin-link-button">
-                        Admin Menu
+                        admin Menu
                     </Link>
                 )}
             </div>
