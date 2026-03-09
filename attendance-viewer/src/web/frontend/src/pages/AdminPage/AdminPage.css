@@ -127,3 +127,63 @@
     border          : 1px solid #feb2b2;
     border-radius   : 6px;
 }
+
+/* セクション分割のデザイン */
+.admin-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #f8fafc; /* セクションを際立たせる薄い背景 */
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-top: 0;
+    margin-bottom: 1.2rem;
+    border-bottom: 2px solid #cbd5e0;
+    padding-bottom: 0.5rem;
+}
+
+.admin-divider {
+    border: 0;
+    height: 1px;
+    background-color: #e2e8f0;
+    margin: 2.5rem 0;
+}
+
+/* textarea の対応を追加 */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width         : 100%;
+    padding       : 0.75rem;
+    font-size     : 1rem;
+    border        : 1px solid #cbd5e0;
+    border-radius : 6px;
+    box-sizing    : border-box;
+    font-family   : inherit; /* フォントを統一 */
+}
+
+.form-group textarea {
+    resize: vertical; /* 縦方向のみリサイズ可能にする */
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline     : none;
+    border-color: #4299e1;
+    box-shadow  : 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+/* メッセージ送信ボタン専用の色調整 */
+.update-button.message-submit-btn {
+    background-color: #38a169; /* 送信系のアクションは緑色で区別 */
+}
+
+.update-button.message-submit-btn:hover:not(:disabled) {
+    background-color: #2f855a;
+}

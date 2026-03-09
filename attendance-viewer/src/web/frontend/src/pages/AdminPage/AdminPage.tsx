@@ -4,6 +4,7 @@ import { fetchAuthSession }                from '@aws-amplify/auth';
 import { useAuthenticator }                from '@aws-amplify/ui-react';
 import { useUpdateAttendanceAdmin }        from '../../hooks/useUpdateAttendanceAdmin';
 import type { UserStatus, UserIdentifier } from '../../types/attendance';
+import { LabMessage }                      from '../../components/MessageBoard/MessageBoard';
 import './AdminPage.css';
 
 const AdminPage = () => {
@@ -15,6 +16,13 @@ const AdminPage = () => {
     const [targetName, setTargetName]                       = useState<string>('');
     const [targetStatus, setTargetStatus]                   = useState<UserStatus>('clock_in');
 
+    // メッセージ動作用のStateを追加
+    const [msgSender, setMsgSender]         = useState<string>('');
+    const [msgPriority, setMsgPriority]     = useState<LabMessage['priority']>('info');
+    const [msgContent, setMsgContent]       = useState<string>('');
+    const [isMsgSending, setIsMsgSending]   = useState<boolean>(false);
+    const [msgSuccess, setMsgSuccess]       = useState<boolean>(false);
+    
     // 管理者かどうかを判定するためのuseEffect
     useEffect(() => {
         const checkAdminStatus = async () => {
@@ -46,7 +54,35 @@ const AdminPage = () => {
         updateAttendance(targetName, targetStatus);
     };
 
-    return (
+    // 伝言掲示板への送信ハンドラ
+    const handleMessageSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!msgSender.trim() || !msgContent.trim()) {
+            alert('送信者とメッセージ内容を入力してください．');
+            return;
+        }
+
+        setIsMsgSending(true);
+        setMsgSuccess(false);
+
+        try {
+            // [TODO] ここにSocketやAPIを用いたバックエンドへの送信処理を実装します
+            // await sendMessageToBackend({ sender: msgSender, priority: msgPriority, content: msgContent });
+            
+            // 現在はUIの動作確認用に1秒間のダミー遅延を入れています
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            setMsgSuccess(true);
+            setMsgContent(''); // 連続して送れるように、成功時は内容のみクリアする
+            setTimeout(() => setMsgSuccess(false), 3000); // 3秒後に成功メッセージを消す
+        } catch (err) {
+            alert("メッセージの配信に失敗しました．");
+        } finally {
+            setIsMsgSending(false);
+        }
+    };
+
+return (
         <div className="admin-page-wrapper">
             <main className="admin-page-container">
                 <header className="admin-header">
@@ -58,42 +94,97 @@ const AdminPage = () => {
 
                 {isAdmin ? (
                     <div className="admin-contents">
-                        <form onSubmit={handleSubmit} className="update-form">
-                            <div className="form-group">
-                                <label htmlFor="name-select">ユーザー名</label>
-                                <select
-                                    id="name-select"
-                                    value={targetName}
-                                    onChange={(e) => setTargetName(e.target.value)}
-                                    required
-                                    disabled={allUsers.length === 0}
-                                >
-                                    {allUsers.length > 0 ? (
-                                    allUsers.map((u) => (
-                                        <option key={u.name} value={u.name}>
-                                        【{u.grade}】{u.name}
-                                        </option>
-                                    ))
-                                    ) : (
-                                    <option disabled>ユーザーリストがありません</option>
-                                    )}
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="status-select">新しいステータス</label>
-                                <select id="status-select" value={targetStatus} onChange={(e) => setTargetStatus(e.target.value as UserStatus)}>
-                                    <option value="clock_in">🟢在室</option>
-                                    <option value="break_in">🟡休憩中</option>
-                                    {/* <option value="break_out">休憩終了</option> */}
-                                    <option value="clock_out">⚫退室</option>
-                                </select>
-                            </div>
-                            <button type="submit" className="update-button" disabled={isLoading || allUsers.length === 0}>
-                                {isLoading ? '更新中...' : '在席情報を更新'}
-                            </button>
-                        </form>
-                        {isSuccess && <p className="success-message">更新に成功しました．</p>}
-                        {error && <p className="error-message">エラー: {error.message}</p>}
+                        
+                        {/* セクション1: 在席状況の手動更新 */}
+                        <section className="admin-section">
+                            <h2 className="section-title">在席状況の手動更新</h2>
+                            <form onSubmit={handleSubmit} className="update-form">
+                                <div className="form-group">
+                                    <label htmlFor="name-select">ユーザー名</label>
+                                    <select
+                                        id="name-select"
+                                        value={targetName}
+                                        onChange={(e) => setTargetName(e.target.value)}
+                                        required
+                                        disabled={allUsers.length === 0}
+                                    >
+                                        {allUsers.length > 0 ? (
+                                        allUsers.map((u) => (
+                                            <option key={u.name} value={u.name}>
+                                            【{u.grade}】{u.name}
+                                            </option>
+                                        ))
+                                        ) : (
+                                        <option disabled>ユーザーリストがありません</option>
+                                        )}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="status-select">新しいステータス</label>
+                                    <select id="status-select" value={targetStatus} onChange={(e) => setTargetStatus(e.target.value as UserStatus)}>
+                                        <option value="clock_in">🟢在室</option>
+                                        <option value="break_in">🟡休憩中</option>
+                                        <option value="clock_out">⚫退室</option>
+                                    </select>
+                                </div>
+                                <button type="submit" className="update-button" disabled={isLoading || allUsers.length === 0}>
+                                    {isLoading ? '更新中...' : '在席情報を更新'}
+                                </button>
+                            </form>
+                            {isSuccess && <p className="success-message">更新に成功しました．</p>}
+                            {error && <p className="error-message">エラー: {error.message}</p>}
+                        </section>
+
+                        <hr className="admin-divider" />
+
+                        {/* セクション2: 伝言板へのメッセージ配信 */}
+                        <section className="admin-section">
+                            <h2 className="section-title">伝言板へのメッセージ配信</h2>
+                            <form onSubmit={handleMessageSubmit} className="update-form">
+                                <div className="form-group">
+                                    <label htmlFor="msg-sender">送信者</label>
+                                    <input 
+                                        id="msg-sender"
+                                        type="text" 
+                                        value={msgSender} 
+                                        onChange={(e) => setMsgSender(e.target.value)} 
+                                        placeholder="例: 峯野，事務" 
+                                        required
+                                    />
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label htmlFor="msg-priority">優先度（緊急度）</label>
+                                    <select 
+                                        id="msg-priority"
+                                        value={msgPriority} 
+                                        onChange={(e) => setMsgPriority(e.target.value as LabMessage['priority'])}
+                                    >
+                                        <option value="info">🔵 お知らせ (Info)</option>
+                                        <option value="warning">🟡 注意 (Warning)</option>
+                                        <option value="urgent">🔴 緊急 (Urgent)</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="msg-content">メッセージ内容</label>
+                                    <textarea 
+                                        id="msg-content"
+                                        value={msgContent} 
+                                        onChange={(e) => setMsgContent(e.target.value)} 
+                                        placeholder="伝言の内容を入力してください．"
+                                        rows={4}
+                                        required
+                                    />
+                                </div>
+
+                                <button type="submit" className="update-button message-submit-btn" disabled={isMsgSending}>
+                                    {isMsgSending ? '送信中...' : '掲示板に送信する'}
+                                </button>
+                            </form>
+                            {msgSuccess && <p className="success-message">メッセージを配信しました．</p>}
+                        </section>
+
                     </div>
                 ) : (
                     <div className="admin-contents">
