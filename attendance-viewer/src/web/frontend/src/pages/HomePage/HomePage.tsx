@@ -302,17 +302,15 @@ const HomePage: React.FC = () => {
                     </div>
                 ) : (
                     selectedUser && (
-                        // グラフが親要素の幅を超えた場合，横スクロールを許可するコンテナを追加
-                        <div style={{ width: '100%', overflowX: 'auto', paddingBottom: '16px' }}>
-                            {/* 内部の要素が無理に圧縮されず，本来のコンテンツ幅(max-content)を維持するように設定 */}
-                            <div style={{ minWidth: 'max-content' }}>
-                                <ContributionGraph
-                                    userName={selectedUser.name}
-                                    startDate={startDate}
-                                    endDate={endDate}
-                                    dailyData={snapshotData?.[selectedUser.name] || {}}
-                                />
-                            </div>
+                        // 変更: グラフ上部の「月」などのラベルが隠れないように、
+                        // 上下に十分な余白（padding）を持たせ、はみ出しを許可します．
+                        <div style={{ padding: '24px 0', overflow: 'visible' }}>
+                            <ContributionGraph
+                                userName={selectedUser.name}
+                                startDate={startDate}
+                                endDate={endDate}
+                                dailyData={snapshotData?.[selectedUser.name] || {}}
+                            />
                         </div>
                     )
                 )}
