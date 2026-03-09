@@ -301,12 +301,20 @@ const HomePage: React.FC = () => {
                         {snapshotError && <p className="error-message">Failed to load graph: {snapshotError.message}</p>}
                     </div>
                 ) : (
-                    selectedUser && <ContributionGraph
-                        userName={selectedUser.name}
-                        startDate={startDate}
-                        endDate={endDate}
-                        dailyData={snapshotData?.[selectedUser.name] || {}}
-                    />
+                    selectedUser && (
+                        // グラフが親要素の幅を超えた場合，横スクロールを許可するコンテナを追加
+                        <div style={{ width: '100%', overflowX: 'auto', paddingBottom: '16px' }}>
+                            {/* 内部の要素が無理に圧縮されず，本来のコンテンツ幅(max-content)を維持するように設定 */}
+                            <div style={{ minWidth: 'max-content' }}>
+                                <ContributionGraph
+                                    userName={selectedUser.name}
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    dailyData={snapshotData?.[selectedUser.name] || {}}
+                                />
+                            </div>
+                        </div>
+                    )
                 )}
             </Modal>
 
