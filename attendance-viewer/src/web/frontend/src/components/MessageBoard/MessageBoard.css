@@ -1,0 +1,98 @@
+.message-board-container {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.message-board-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #f1f3f5;
+    padding-bottom: 8px;
+}
+
+.message-board-icon {
+    font-size: 1.2rem;
+}
+
+.message-board-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #343a40;
+    margin: 0;
+}
+
+.message-board-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* スクロールバーの装飾 */
+.message-board-list::-webkit-scrollbar {
+    width: 6px;
+}
+.message-board-list::-webkit-scrollbar-track {
+    background: #f1f3f5;
+    border-radius: 3px;
+}
+.message-board-list::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 3px;
+}
+
+.message-card {
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #ced4da;
+    background-color: #f8f9fa;
+}
+
+/* 優先度に応じたカラーリング */
+.message-card.priority-info {
+    border-left-color: #339af0;
+    background-color: #e7f5ff;
+}
+
+.message-card.priority-warning {
+    border-left-color: #fcc419;
+    background-color: #fff9db;
+}
+
+.message-card.priority-urgent {
+    border-left-color: #ff6b6b;
+    background-color: #fff5f5;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.message-sender {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.message-time {
+    font-size: 0.8rem;
+    color: #868e96;
+}
+
+.message-content {
+    font-size: 0.95rem;
+    color: #343a40;
+    line-height: 1.4;
+    white-space: pre-wrap; /* 改行を保持 */
+}
