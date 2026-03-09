@@ -80,32 +80,6 @@ const HomePage: React.FC = () => {
     const [startDate, setStartDate]       = useState('');
     const [endDate, setEndDate]           = useState('');
 
-    const navigateUser = (direction: 'next' | 'prev') => {
-        if (!selectedUser || sortedUsers.length === 0) return;
-
-        const currentIndex = sortedUsers.findIndex(u => u.name === selectedUser.name);
-        let nextIndex: number;
-
-        if (direction === 'next') {
-            nextIndex = (currentIndex + 1) % sortedUsers.length;
-        } else {
-            nextIndex = (currentIndex - 1 + sortedUsers.length) % sortedUsers.length;
-        }
-
-        setSelectedUser(sortedUsers[nextIndex]);
-    };
-
-    useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (!isModalOpen) return;
-            if (event.key === 'ArrowRight') navigateUser('next');
-            if (event.key === 'ArrowLeft')  navigateUser('prev');
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isModalOpen, selectedUser, sortedUsers]);
-
     // グラフ用データ取得フックを追加
     const {
         snapshotData,
@@ -153,6 +127,32 @@ const HomePage: React.FC = () => {
             return a.name.localeCompare(b.name, 'ja');
         });
     }, [realTimeUsers]);
+
+        const navigateUser = (direction: 'next' | 'prev') => {
+        if (!selectedUser || sortedUsers.length === 0) return;
+
+        const currentIndex = sortedUsers.findIndex(u => u.name === selectedUser.name);
+        let nextIndex: number;
+
+        if (direction === 'next') {
+            nextIndex = (currentIndex + 1) % sortedUsers.length;
+        } else {
+            nextIndex = (currentIndex - 1 + sortedUsers.length) % sortedUsers.length;
+        }
+
+        setSelectedUser(sortedUsers[nextIndex]);
+    };
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (!isModalOpen) return;
+            if (event.key === 'ArrowRight') navigateUser('next');
+            if (event.key === 'ArrowLeft')  navigateUser('prev');
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isModalOpen, selectedUser, sortedUsers]);
 
     // 過去7日間で最も在室時間が長いユーザーを特定するメモ化された値
     const topAttendanceUsers = useMemo(() => {
