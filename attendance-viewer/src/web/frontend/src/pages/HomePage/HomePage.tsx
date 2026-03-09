@@ -80,6 +80,32 @@ const HomePage: React.FC = () => {
     const [startDate, setStartDate]       = useState('');
     const [endDate, setEndDate]           = useState('');
 
+    const navigateUser = (direction: 'next' | 'prev') => {
+        if (!selectedUser || sortedUsers.length === 0) return;
+
+        const currentIndex = sortedUsers.findIndex(u => u.name === selectedUser.name);
+        let nextIndex: number;
+
+        if (direction === 'next') {
+            nextIndex = (currentIndex + 1) % sortedUsers.length;
+        } else {
+            nextIndex = (currentIndex - 1 + sortedUsers.length) % sortedUsers.length;
+        }
+
+        setSelectedUser(sortedUsers[nextIndex]);
+    };
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (!isModalOpen) return;
+            if (event.key === 'ArrowRight') navigateUser('next');
+            if (event.key === 'ArrowLeft')  navigateUser('prev');
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isModalOpen, selectedUser, sortedUsers]);
+
     // グラフ用データ取得フックを追加
     const {
         snapshotData,
@@ -235,7 +261,6 @@ const HomePage: React.FC = () => {
                             sortedUsers.map((user) => {
                                 const displayStatus     = mapApiStatusToDisplayStatus(user.status);
                                 const userLast7DaysData = last7DaysData[user.name] || {};
-
                                 return (
                                     <tr key={user.name} className={getGradeRowClass(user.grade)}>
                                         <td className="name-cell">
@@ -257,59 +282,68 @@ const HomePage: React.FC = () => {
                                         </td>
                                         {STATUS_COLUMNS.map(colName => (
                                             <td key={colName} className="status-cell">
-                                                <span 
-                                                    className={`status-marker ${getStatusColorClass(colName, user.status)} ${
-                                                        displayStatus === colName ? 'active' : ''
-                                                    }`}
-                                                ></span>
+                                                <span className={`status-marker ${getStatusColorClass(colName, user.status)} ${displayStatus === colName ? 'active' : ''}`}></span>
                                             </td>
                                         ))}
                                     </tr>
                                 );
                             })
                         ) : (
-                            <tr>
-                                <td colSpan={3} className="no-data-cell">No users to display.</td>
-                            </tr>
+                            <tr><td colSpan={3} className="no-data-cell">No users to display.</td></tr>
                         )}
                     </tbody>
                 </table>
             </main>
 
             <Modal isOpen={isModalOpen} onClose={closeModal}>
-                {/*任意の年月日を指定可能なカレンダー形式のプルダウンUIの追加*/}
                 {selectedUser && (
-                    <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                        <input 
-                            type="date" 
-                            value={startDate} 
-                            onChange={(e) => setStartDate(e.target.value)} 
-                            style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: 'pointer' }}
-                        />
-                        <span style={{ fontWeight: 'bold' }}> 〜 </span>
-                        <input 
-                            type="date" 
-                            value={endDate} 
-                            onChange={(e) => setEndDate(e.target.value)} 
-                            style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: 'pointer' }}
-                        />
+                    <div style={{ position: 'relative', padding: '0 40px' }}>
+                        {/* 左矢印ボタン */}
+                        <button 
+                            onClick={() => navigateUser('prev')}
+                            style={{
+                                position: 'absolute', left: '-10px', top: '50%', transform: 'translateY(-50%)',
+                                background: 'none', border: 'none', fontSize: '32px', cursor: 'pointer', color: '#ccc'
+                            }}
+                            title="前のユーザーへ (←)"
+                        >
+                            &#10094;
+                        </button>
+
+                        <div style={{ marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: 'pointer' }} />
+                            <span style={{ fontWeight: 'bold' }}> 〜 </span>
+                            <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: 'pointer' }} />
+                        </div>
+
+                        {(isSnapshotLoading || snapshotError) ? (
+                            <div className="modal-status-container">
+                                {isSnapshotLoading && <p>Loading graph...</p>}
+                                {snapshotError && <p className="error-message">Failed to load graph: {snapshotError.message}</p>}
+                            </div>
+                        ) : (
+                            <ContributionGraph
+                                userName={selectedUser.name}
+                                startDate={startDate}
+                                endDate={endDate}
+                                dailyData={snapshotData?.[selectedUser.name] || {}}
+                            />
+                        )}
+
+                        {/* 右矢印ボタン */}
+                        <button 
+                            onClick={() => navigateUser('next')}
+                            style={{
+                                position: 'absolute', right: '-10px', top: '50%', transform: 'translateY(-50%)',
+                                background: 'none', border: 'none', fontSize: '32px', cursor: 'pointer', color: '#ccc'
+                            }}
+                            title="次のユーザーへ (→)"
+                        >
+                            &#10095;
+                        </button>
                     </div>
-                )}
-                {(isSnapshotLoading || snapshotError) ? (
-                    <div className="modal-status-container">
-                        {isSnapshotLoading && <p>Loading graph...</p>}
-                        {snapshotError && <p className="error-message">Failed to load graph: {snapshotError.message}</p>}
-                    </div>
-                ) : (
-                    selectedUser && <ContributionGraph
-                        userName={selectedUser.name}
-                        startDate={startDate}
-                        endDate={endDate}
-                        dailyData={snapshotData?.[selectedUser.name] || {}}
-                    />
                 )}
             </Modal>
-
             <Footer />
         </div>
     );
