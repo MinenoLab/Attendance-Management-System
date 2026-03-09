@@ -17,15 +17,22 @@
 
 .months-row {
     display              : grid;
-    /* grid-template-columns: repeat(53, 19px); */
+    grid-template-columns: repeat(53, 19px);
     font-size            : 12px;
     color                : #555;
     margin-left          : 36px;
     height               : 20px;
 }
 
-.month-label {
+/* .month-label {
     grid-column-end: span 4;
+} */
+
+/* 独立して配置し，文字が折り返して潰れるのを防ぐ */
+.month-label {
+    position   : absolute;
+    top        : 0;
+    white-space: nowrap;
 }
 
 .days-and-cells {

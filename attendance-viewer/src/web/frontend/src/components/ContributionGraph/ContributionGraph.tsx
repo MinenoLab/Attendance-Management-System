@@ -10,6 +10,7 @@ interface ContributionGraphProps {
 }
 
 const MONTH_LABELS  = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+// const WEEKS_TO_SHOW = 53;
 
 const getColorForTime = (minutes: number): string => {
     if (minutes > 480) return 'color-level-4'; // 8時間以上
@@ -44,15 +45,15 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
         // endDateを解析して終了日を取得
         const [endYear, endMonth, endDay] = endDate.split('-').map(Number);
         const lastDayOfPeriod = new Date(endYear, endMonth - 1, endDay);
-        
-        // 終了日の次の土曜日を計算し，正確な総日数を割り出して必要な週数を算出します
+
+        // 終了日の次の土曜日を計算し，総日数から動的に週数を計算します
         const endDayOfWeek = lastDayOfPeriod.getDay();
         const endDateObj = new Date(lastDayOfPeriod);
         endDateObj.setDate(lastDayOfPeriod.getDate() + (6 - endDayOfWeek));
 
         const totalDays = Math.round((endDateObj.getTime() - startDateObj.getTime()) / (1000 * 60 * 60 * 24)) + 1;
         const dynamicWeeksToShow = Math.max(1, Math.floor(totalDays / 7));
-
+        
         let lastMonth = -1;
 
         for (let weekIndex = 0; weekIndex < dynamicWeeksToShow; weekIndex++) {
@@ -87,16 +88,17 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
     return (
         <div className="graph-container-yearly" style={{ overflowX: 'auto', paddingBottom: '16px' }}>
             <h3 className="graph-title" style={{ position: 'sticky', left: 0 }}>{userName} - {startDate} 〜 {endDate}</h3>
-            <div className="graph-grid" style={{ minWidth: 'max-content' }}>
-                <div className="months-row" style={{ gridTemplateColumns: `repeat(${weeks.length}, 19px)` }}>
+            <div className="graph-grid" style={{ minWidth: 'max-content', paddingRight: '24px' }}>
+                <div className="months-row">
                     {monthLabelPositions.map(({ label, index }) => (
-                        <div key={label} className="month-label" style={{ gridColumnStart: index + 1 }}>
+                        // 1週の幅（19px）× インデックスで絶対位置を指定します
+                        <div key={label} className="month-label" style={{ left: `${index * 19}px` }}>
                             {label}
                         </div>
                     ))}
                 </div>
                 <div className="days-and-cells">
-                    <div className="days-col" style={{ position: 'sticky', left: 0, backgroundColor: '#fff', zIndex: 1 }}>
+                    <div className="days-col">
                         <span>Sun</span>
                         <span>Mon</span>
                         <span>Tue</span>
@@ -127,7 +129,7 @@ const ContributionGraph: React.FC<ContributionGraphProps> = ({ startDate, endDat
                     </div>
                 </div>
             </div>
-            <div className="legend" style={{ position: 'sticky', left: 0, marginTop: '8px' }}>
+            <div className="legend">
                 <span>Less</span>
                     <div className="cell color-level-0"></div>
                     <div className="cell color-level-1"></div>
