@@ -51,7 +51,6 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
 const connectWebSocket = () => {
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
         
-        // 【修正1】AWSのステージ名に合わせて 'production' に変更（もしAWS側が v1 なら 'v1' に戻してください）
         const stage    = 'v1';
 
         if (!basePath) {
@@ -59,15 +58,14 @@ const connectWebSocket = () => {
             return;
         }
 
-        // 【修正2】末尾の不要なスラッシュを削除
         const fullUrl = `${basePath}/${stage}`;
-        console.log("🚀 WebSocket 接続開始:", fullUrl);
+        //console.log("🚀 WebSocket 接続開始:", fullUrl);
 
         const socket  = new WebSocket(fullUrl);
         socketRef.current = socket;
 
         socket.onopen = () => {
-            console.log("✅ WebSocket 接続成功！"); // これが出れば開通です！
+            //console.log("✅ WebSocket 接続成功！"); // これが出れば開通です！
             setError(null);
             reconnectAttemptsRef.current = 0;
             pingIntervalRef.current = setInterval(() => {
@@ -86,6 +84,8 @@ const connectWebSocket = () => {
             if (data.type === 'new_message' && data.message) {
                 const newMsg: LabMessage = data.message;
                 setMessages(prevMessages => [newMsg, ...prevMessages]);
+            } else if (data.type === 'delete_message' && data.messageId) {
+                setMessages(prevMessages => prevMessages.filter(msg => msg.id !== data.messageId));
             }
         };
 
