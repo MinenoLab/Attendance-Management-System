@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator } 	  from '@aws-amplify/ui-react';
 
 import LoadingPage            from './pages/LoadingPage/LoadingPage';
 import ErrorPage              from './pages/ErrorPage/ErrorPage';

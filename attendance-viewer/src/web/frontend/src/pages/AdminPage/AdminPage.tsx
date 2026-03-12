@@ -183,7 +183,7 @@ const AdminPage = () => {
                                     {isMsgSending ? '送信中...' : '掲示板に送信する'}
                                 </button>
                             </form>
-                            {/* ★ カスタムフックが返してくる成功・エラー状態を表示 */}
+                            {/* カスタムフックが返してくる成功・エラー状態を表示 */}
                             {msgSuccess && <p className="success-message">メッセージを配信しました．</p>}
                             {msgError && <p className="error-message">エラー: {msgError.message}</p>}
                         </section>

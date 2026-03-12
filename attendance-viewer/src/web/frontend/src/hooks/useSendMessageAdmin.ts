@@ -21,7 +21,7 @@ export const useSendMessageAdmin = (): UseSendMessageAdminReturn => {
         try {
             const basePath = process.env.REACT_APP_API_BASE_PATH;
             // バックエンド側のエンドポイントに合わせて変更してください（例: /v1/messages）
-            const url      = `${basePath}/v1/messages`;
+            const url      = `${basePath}/v1/message`;
             const apiKey   = process.env.REACT_APP_API_KEY;
             
             if (!basePath || !apiKey) {
