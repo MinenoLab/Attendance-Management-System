@@ -50,6 +50,10 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
 
     const connectWebSocket = () => {
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
+
+        // デバッグ用にWebSocketのURLを確認
+        console.log("WebSocketのURL確認:", basePath);
+
         const stage    = 'v1'; 
 
         if (!basePath) {
