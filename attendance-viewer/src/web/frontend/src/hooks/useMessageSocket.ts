@@ -52,7 +52,7 @@ const connectWebSocket = () => {
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
         
         // 【修正1】AWSのステージ名に合わせて 'production' に変更（もしAWS側が v1 なら 'v1' に戻してください）
-        const stage    = 'production'; 
+        const stage    = 'v1';
 
         if (!basePath) {
             console.error("WebSocketの接続URLが設定されていません．");
