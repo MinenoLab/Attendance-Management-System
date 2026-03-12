@@ -38,11 +38,27 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
                 throw new Error(`APIからのデータ取得に失敗しました: ${response.status}`);
             }
 
-            const data: LabMessage[] = await response.json();
-            setMessages(data);
+            const data = await response.json();
+            
+            // データが配列であることを確認し，Reactが期待する形に安全に変換する
+            if (Array.isArray(data)) {
+                const formattedData: LabMessage[] = data.map((item: any) => ({
+                    id: item.id || item.messageId || 'unknown_id', // DynamoDBのmessageIdをidにマッピング
+                    sender: item.sender || '',
+                    content: item.content || '',
+                    priority: item.priority || 'info',
+                    createdAt: item.createdAt || new Date().toISOString()
+                }));
+                setMessages(formattedData);
+            } else {
+                console.error("APIから予期せぬデータが返されました:", data);
+                setMessages([]); // クラッシュを防ぐため空配列をセット
+            }
+            
         } catch (err) {
             console.error("初期メッセージの取得エラー:", err);
             if (err instanceof Error) setError(err);
+            setMessages([]); // エラー時もクラッシュを防ぐ
         }
     };
 
