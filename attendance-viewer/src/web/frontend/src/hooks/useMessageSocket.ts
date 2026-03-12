@@ -48,24 +48,26 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
         }
     };
 
-    const connectWebSocket = () => {
+const connectWebSocket = () => {
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
-
-        // デバッグ用にWebSocketのURLを確認
-        console.log("WebSocketのURL確認:", basePath);
-
-        const stage    = 'v1'; 
+        
+        // 【修正1】AWSのステージ名に合わせて 'production' に変更（もしAWS側が v1 なら 'v1' に戻してください）
+        const stage    = 'production'; 
 
         if (!basePath) {
-            setError(new Error("WebSocketの接続URLが設定されていません．"));
+            console.error("WebSocketの接続URLが設定されていません．");
             return;
         }
 
-        const fullUrl = `${basePath}/${stage}/`;
+        // 【修正2】末尾の不要なスラッシュを削除
+        const fullUrl = `${basePath}/${stage}`;
+        console.log("🚀 WebSocket 接続開始:", fullUrl);
+
         const socket  = new WebSocket(fullUrl);
         socketRef.current = socket;
 
         socket.onopen = () => {
+            console.log("✅ WebSocket 接続成功！"); // これが出れば開通です！
             setError(null);
             reconnectAttemptsRef.current = 0;
             pingIntervalRef.current = setInterval(() => {
@@ -76,27 +78,28 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
         };
 
         socket.onmessage = (event) => {
+            console.log("📩 WebSocket メッセージ受信:", event.data); // リアルタイム受信の証拠
             const data = JSON.parse(event.data);
 
             if (data.type === 'pong' || data.action === 'pong') return;
 
-            // 新しいメッセージを受信した場合，既存のリストの先頭に追加
             if (data.type === 'new_message' && data.message) {
                 const newMsg: LabMessage = data.message;
                 setMessages(prevMessages => [newMsg, ...prevMessages]);
             }
         };
 
-        socket.onerror = () => {
-            setError(new Error("メッセージサーバーとの接続で問題が発生しました．"));
+        socket.onerror = (error) => {
+            console.error("❌ WebSocket エラー発生:", error);
         };
 
         socket.onclose = (event) => {
+            console.log(`⚠️ WebSocket 切断 (コード: ${event.code})`);
+            // 切断時の再接続ロジック（そのまま）
             if (pingIntervalRef.current) {
                 clearInterval(pingIntervalRef.current);
                 pingIntervalRef.current = null;
             }
-
             if (event.code !== 1000) {
                 if (reconnectAttemptsRef.current < maxReconnectAttempts) {
                     const reconnectDelay = baseReconnectDelay * Math.pow(2, reconnectAttemptsRef.current);
@@ -110,7 +113,6 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
             }
         };
     };
-
     useEffect(() => {
         // 2. マウント時にまず過去のデータを取得し，その後にWebSocketの待ち受けを開始する
         fetchInitialMessages().then(() => {
