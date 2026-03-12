@@ -25,7 +25,6 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
             return;
         }
 
-        // 必要に応じてエンドポイントを変更 (例: `${basePath}/${stage}/messages/`)
         const fullUrl = `${basePath}/${stage}/`;
         const socket  = new WebSocket(fullUrl);
         socketRef.current = socket;
