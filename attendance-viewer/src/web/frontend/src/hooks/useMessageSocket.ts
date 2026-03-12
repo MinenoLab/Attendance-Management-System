@@ -16,36 +16,6 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
     const maxReconnectAttempts    = 5;
     const baseReconnectDelay      = 1000;
 
-    // 1. 初期データ（過去のメッセージ）を取得する関数を追加
-    const fetchInitialMessages = async () => {
-        const basePath = process.env.REACT_APP_API_BASE_PATH;
-        const apiKey = process.env.REACT_APP_API_KEY;
-
-        if (!basePath || !apiKey) {
-            console.error("APIのURLまたはキーが設定されていません．");
-            return;
-        }
-
-        try {
-            const response = await fetch(`${basePath}/v1/message`, {
-                method: 'GET',
-                headers: {
-                    'x-api-key': apiKey
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`APIからのデータ取得に失敗しました: ${response.status}`);
-            }
-
-            const data: LabMessage[] = await response.json();
-            setMessages(data);
-        } catch (err) {
-            console.error("初期メッセージの取得エラー:", err);
-            if (err instanceof Error) setError(err);
-        }
-    };
-
     const connectWebSocket = () => {
         const basePath = process.env.REACT_APP_WEBSOCKET_API_BASE_PATH;
         const stage    = 'v1'; 
@@ -64,7 +34,7 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
             reconnectAttemptsRef.current = 0;
             pingIntervalRef.current = setInterval(() => {
                 if (socket.readyState === WebSocket.OPEN) {
-                    socket.send(JSON.stringify({ action: 'ping' })); 
+                    socket.send(JSON.stringify({ action: 'ping' })); // バックエンドの仕様に合わせて'type'や'action'を調整
                 }
             }, 9 * 60 * 1000);
         };
@@ -74,9 +44,11 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
 
             if (data.type === 'pong' || data.action === 'pong') return;
 
-            // 新しいメッセージを受信した場合，既存のリストの先頭に追加
+            // 新しいメッセージを受信した場合（バックエンドのJSON構造に合わせて調整）
+            // 例: { type: 'new_message', data: { id, sender, content, createdAt, priority } }
             if (data.type === 'new_message' && data.message) {
                 const newMsg: LabMessage = data.message;
+                // 新しいメッセージを先頭に追加する
                 setMessages(prevMessages => [newMsg, ...prevMessages]);
             }
         };
@@ -99,18 +71,14 @@ export const useMessageSocket = (initialMessages: LabMessage[] = []): UseMessage
                         connectWebSocket();
                     }, reconnectDelay);
                 } else {
-                    setError(new Error(`サーバーとの接続が切れました．コード: ${event.code}`));
+                    setError(new Error(`サーバーとの接続が切れました。コード: ${event.code}`));
                 }
             }
         };
     };
 
     useEffect(() => {
-        // 2. マウント時にまず過去のデータを取得し，その後にWebSocketの待ち受けを開始する
-        fetchInitialMessages().then(() => {
-            connectWebSocket();
-        });
-
+        connectWebSocket();
         return () => {
             if (reconnectTimeoutRef.current) clearTimeout(reconnectTimeoutRef.current);
             if (pingIntervalRef.current) clearInterval(pingIntervalRef.current);
