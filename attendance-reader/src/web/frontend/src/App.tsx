@@ -4,6 +4,7 @@ import HomePage               from './pages/HomePage/HomePage';
 import UserSelectPage 	      from './pages/RegisterUser/UserSelectPage';
 import UserCardWaitPage 	  from './pages/RegisterUser/UserCardWaitPage';
 import AttendanceCardWaitPage from './pages/RegisterAttendance/AttendanceCardWaitPage';
+import { VersionTag }         from './components/VersionTag';
 import { useKioskMode }       from './hooks/useKioskMode';
 
 // アプリケーションのルーティングを定義するコンポーネント
@@ -20,6 +21,7 @@ function App() {
 					<Route path="/register-attendance/waiting" element={<AttendanceCardWaitPage />} />
 				</Routes>
 			</Router>
+			<VersionTag />
 		</>
 	);
 }
