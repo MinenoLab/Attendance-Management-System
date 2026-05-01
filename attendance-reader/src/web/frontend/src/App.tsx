@@ -4,18 +4,25 @@ import HomePage               from './pages/HomePage/HomePage';
 import UserSelectPage 	      from './pages/RegisterUser/UserSelectPage';
 import UserCardWaitPage 	  from './pages/RegisterUser/UserCardWaitPage';
 import AttendanceCardWaitPage from './pages/RegisterAttendance/AttendanceCardWaitPage';
+import { OfflineOverlay }     from './components/OfflineOverlay';
+import { useKioskMode }       from './hooks/useKioskMode';
 
 // アプリケーションのルーティングを定義するコンポーネント
 function App() {
+	useKioskMode();
+
 	return (
-		<Router>
-			<Routes>
-				<Route path="/" element={<HomePage />} />
-				<Route path="/register-user"               element={<UserSelectPage />} />
-				<Route path="/register-user/waiting"       element={<UserCardWaitPage />} />
-				<Route path="/register-attendance/waiting" element={<AttendanceCardWaitPage />} />
-			</Routes>
-		</Router>
+		<>
+			<Router>
+				<Routes>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/register-user"               element={<UserSelectPage />} />
+					<Route path="/register-user/waiting"       element={<UserCardWaitPage />} />
+					<Route path="/register-attendance/waiting" element={<AttendanceCardWaitPage />} />
+				</Routes>
+			</Router>
+			<OfflineOverlay />
+		</>
 	);
 }
 
