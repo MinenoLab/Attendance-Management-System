@@ -292,7 +292,7 @@ const HomePage: React.FC = () => {
                                                             >
                                                                 {user.name}
                                                             </span>
-                                                            rank && <Medal rank={rank} />
+                                                            {rank && <Medal rank={rank} />}
                                                         </>
                                                     );
                                                 })()}
