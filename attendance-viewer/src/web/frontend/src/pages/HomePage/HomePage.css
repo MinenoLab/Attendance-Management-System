@@ -377,6 +377,19 @@ body {
     text-decoration: underline;
 }
 
+.user-name-gold {
+    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gold-shimmer 2s linear infinite;
+}
+
+@keyframes gold-shimmer {
+    0%   { background-position: 200% center; }
+    100% { background-position: 0% center; }
+}
+
 .user-mini-graph {
     flex-shrink : 0;
     margin-right: auto;

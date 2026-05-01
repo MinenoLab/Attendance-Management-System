@@ -284,7 +284,17 @@ const HomePage: React.FC = () => {
                                                 </span>
                                                 {(() => {
                                                     const rank = getUserRank(user.name);
-                                                    return rank && <Medal rank={rank} />;
+                                                    return (
+                                                        <>
+                                                            <span
+                                                                className={`user-name-clickable ${rank === 1 ? 'user-name-gold' : ''}`}
+                                                                onClick={() => handleUserClick(user)}
+                                                            >
+                                                                {user.name}
+                                                            </span>
+                                                            rank && <Medal rank={rank} />
+                                                        </>
+                                                    );
                                                 })()}
                                             </div>
                                         </td>
