@@ -1,6 +1,6 @@
 {
-  "short_name": "Attendance Management",
-  "name": "Attendance Management System",
+  "short_name": "在室確認",
+  "name": "峰野研究室 在室確認システム",
   "icons": [
     {
       "src": "favicon.ico",
@@ -19,7 +19,8 @@
     }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "display": "fullscreen",
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "orientation": "landscape"
 }
