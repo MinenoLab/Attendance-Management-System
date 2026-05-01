@@ -279,9 +279,9 @@ const HomePage: React.FC = () => {
                                                         className="user-mini-graph"
                                                     />
                                                 )}
-                                                <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
+                                                {/* <span className="user-name-clickable" onClick={() => handleUserClick(user)}>
                                                     {user.name}
-                                                </span>
+                                                </span> */}
                                                 {(() => {
                                                     const rank = getUserRank(user.name);
                                                     return (
