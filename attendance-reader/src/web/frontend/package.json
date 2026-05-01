@@ -19,6 +19,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "stamp-version": "node scripts/stamp-version.js",
+    "prestart": "node scripts/stamp-version.js",
+    "prebuild": "node scripts/stamp-version.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
