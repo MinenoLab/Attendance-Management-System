@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo }                 from 'react';
+import React, { useState, useEffect, useMemo, useRef }         from 'react';
 import { useLocation, useNavigate }                            from "react-router-dom";
 import type { User, UserStatus, UserIdentifier, FullUserInfo } from '../../types/attendance';
 import { useGetSnapshot }                                      from '../../hooks/useGetSnapshot';
@@ -16,6 +16,8 @@ import './HomePage.css';
 // 在室状況の表示用ステータス
 type DisplayStatus                    = 'Present' | 'Absent';
 const STATUS_COLUMNS: DisplayStatus[] = ['Present', 'Absent'];
+
+const ADJUSTMENT_COEFFICIENT = 0.8;
 
 // APIからのステータスを表示用のステータスにマッピングする関数
 const mapApiStatusToDisplayStatus = (apiStatus: UserStatus): DisplayStatus | null => {
@@ -82,6 +84,11 @@ const HomePage: React.FC = () => {
     const [startDate, setStartDate]       = useState('');
     const [endDate, setEndDate]           = useState('');
 
+    const [showAdjusted, setShowAdjusted]         = useState(false);
+    const [weeklyClassHours, setWeeklyClassHours] = useState<number | ''>(''); 
+
+    const isInitialOpenRef = useRef(true);
+
     // グラフ用データ取得フックを追加
     const {
         snapshotData,
@@ -108,6 +115,30 @@ const HomePage: React.FC = () => {
             days   : Object.keys(userData).filter(date => userData[date] > 0).length, // 在室日数
         };
     }, [snapshotData, selectedUser]);
+
+    const adjustedAttendance = useMemo(() => {
+        if (!totalAttendance || !startDate || !endDate) return null;
+
+        // 期間の週数を算出
+        const diffDays = Math.ceil(
+            (new Date(endDate).getTime() - new Date(startDate).getTime())
+            / (1000 * 60 * 60 * 24)
+        ) + 1;
+        const numberOfWeeks = diffDays / 7;
+
+        const totalHours      = totalAttendance.totalMinutes / 60;
+        const adjustedHours   = totalHours * ADJUSTMENT_COEFFICIENT;
+        const classHoursTotal = (weeklyClassHours === '' ? 0 : Number(weeklyClassHours)) * numberOfWeeks;
+        const finalHours      = adjustedHours - classHoursTotal;
+
+        return {
+            totalHours,
+            adjustedHours,
+            classHoursTotal,
+            finalHours,
+            numberOfWeeks: Math.round(numberOfWeeks * 10) / 10,
+        };
+    }, [totalAttendance, weeklyClassHours, startDate, endDate]);
 
     // 過去7日間のデータを取得するフック
     const {
@@ -153,8 +184,9 @@ const HomePage: React.FC = () => {
         });
     }, [realTimeUsers]);
 
-        const navigateUser = (direction: 'next' | 'prev') => {
+    const navigateUser = (direction: 'next' | 'prev') => {
         if (!selectedUser || sortedUsers.length === 0) return;
+        isInitialOpenRef.current = false;
 
         const currentIndex = sortedUsers.findIndex(u => u.name === selectedUser.name);
         let nextIndex: number;
@@ -212,21 +244,20 @@ const HomePage: React.FC = () => {
 
     // selectedUserが変更されたら，学年度(4/1～3/31)の日付範囲を設定
     useEffect(() => {
-        if (selectedUser) {
+        if (selectedUser && isInitialOpenRef.current) {
             const today = new Date();
-            const currentMonth = today.getMonth(); // 0-11
+            const currentMonth = today.getMonth();
             const currentYear = today.getFullYear();
             
-            // 4月(月インデックス3)以降なら今年度、それ以外は前年度
             let academicStartYear: number;
-            if (currentMonth >= 3) { // 4月以降
+            if (currentMonth >= 3) {
                 academicStartYear = currentYear;
-            } else { // 1月〜3月
+            } else {
                 academicStartYear = currentYear - 1;
             }
             
-            const firstDay = new Date(academicStartYear, 3, 1); // 4月1日
-            const lastDay = new Date(academicStartYear + 1, 2, 31); // 翌年3月31日
+            const firstDay = new Date(academicStartYear, 3, 1);
+            const lastDay  = new Date(academicStartYear + 1, 2, 31);
             
             setStartDate(formatDate(firstDay));
             setEndDate(formatDate(lastDay));
@@ -254,6 +285,7 @@ const HomePage: React.FC = () => {
 
     // モーダル用のハンドラ関数を定義
     const handleUserClick = (user: FullUserInfo) => {
+        isInitialOpenRef.current = true;
         setSelectedUser(user);
         setIsModalOpen(true);
     };
@@ -355,48 +387,113 @@ const HomePage: React.FC = () => {
                         </div>
 
                         {!isSnapshotLoading && !snapshotError && totalAttendance && (
-                            <div style={{
-                                display       : 'flex',
-                                justifyContent: 'center',
-                                gap           : '2rem',
-                                marginBottom  : '16px',
-                                padding       : '12px 24px',
-                                backgroundColor: '#f8f9fa',
-                                borderRadius  : '8px',
-                                border        : '1px solid #e9ecef',
-                            }}>
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2c3e50', lineHeight: 1 }}>
-                                        {totalAttendance.hours}
-                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>h</span>
+                            <div className="attendance-summary">
+                                <div className="attendance-summary-item">
+                                    <div className="attendance-summary-value">
+                                        {totalAttendance.hours}<span>h</span>
                                         {' '}
-                                        {totalAttendance.minutes}
-                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>m</span>
+                                        {totalAttendance.minutes}<span>m</span>
                                     </div>
-                                    <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginTop: '4px' }}>合計在室時間</div>
+                                    <div className="attendance-summary-label">合計在室時間</div>
                                 </div>
 
-                                <div style={{ width: '1px', backgroundColor: '#dee2e6' }} />
+                                <div className="attendance-summary-divider" />
 
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2c3e50', lineHeight: 1 }}>
-                                        {totalAttendance.days}
-                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>days</span>
+                                <div className="attendance-summary-item">
+                                    <div className="attendance-summary-value">
+                                        {totalAttendance.days}<span>days</span>
                                     </div>
-                                    <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginTop: '4px' }}>在室日数</div>
+                                    <div className="attendance-summary-label">在室日数</div>
                                 </div>
 
-                                <div style={{ width: '1px', backgroundColor: '#dee2e6' }} />
+                                <div className="attendance-summary-divider" />
 
-                                <div style={{ textAlign: 'center' }}>
-                                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2c3e50', lineHeight: 1 }}>
+                                <div className="attendance-summary-item">
+                                    <div className="attendance-summary-value">
                                         {totalAttendance.days > 0
                                             ? (totalAttendance.totalMinutes / totalAttendance.days / 60).toFixed(1)
                                             : '0.0'}
-                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>h</span>
+                                        <span>h</span>
                                     </div>
-                                    <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginTop: '4px' }}>1日平均</div>
+                                    <div className="attendance-summary-label">1日平均</div>
                                 </div>
+                            </div>
+                        )}
+
+                        {!isSnapshotLoading && !snapshotError && totalAttendance && (
+                            <div className="adjusted-section">
+
+                                <button
+                                    onClick={() => setShowAdjusted(prev => !prev)}
+                                    className="adjusted-toggle-button"
+                                >
+                                    <span className="adjusted-toggle-icon">{showAdjusted ? '▲' : '▼'}</span>
+                                    調整後在室時間を計算
+                                </button>
+
+                                {showAdjusted && adjustedAttendance && (
+                                    <div className="adjusted-panel">
+
+                                        <div className="adjusted-input-row">
+                                            <label>週当たりの授業時間</label>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                step="0.5"
+                                                value={weeklyClassHours}
+                                                onChange={e => setWeeklyClassHours(
+                                                    e.target.value === '' ? '' : Number(e.target.value)
+                                                )}
+                                            />
+                                            <span>時間 / 週</span>
+                                        </div>
+
+                                        <div className="adjusted-breakdown">
+
+                                            <div className="adjusted-breakdown-row">
+                                                <span className="label">合計在室時間</span>
+                                                <span>{adjustedAttendance.totalHours.toFixed(1)} h</span>
+                                            </div>
+
+                                            <div className="adjusted-breakdown-row">
+                                                <span className="label">× 調整係数（{ADJUSTMENT_COEFFICIENT}）</span>
+                                                <span>{adjustedAttendance.adjustedHours.toFixed(1)} h</span>
+                                            </div>
+
+                                            <div className="adjusted-breakdown-row">
+                                                <span className="label">
+                                                    − 授業時間合計
+                                                    {weeklyClassHours !== '' && weeklyClassHours > 0 && (
+                                                        <span className="sub-label">
+                                                            （{weeklyClassHours}h × {adjustedAttendance.numberOfWeeks}週）
+                                                        </span>
+                                                    )}
+                                                </span>
+                                                <span>
+                                                    {weeklyClassHours === '' || weeklyClassHours === 0
+                                                        ? '─'
+                                                        : `${adjustedAttendance.classHoursTotal.toFixed(1)} h`
+                                                    }
+                                                </span>
+                                            </div>
+
+                                            <div className="adjusted-divider" />
+
+                                            <div className="adjusted-result-row">
+                                                <span>調整後在室時間</span>
+                                                <span className={`adjusted-result-value ${adjustedAttendance.finalHours < 0 ? 'negative' : ''}`}>
+                                                    {adjustedAttendance.finalHours.toFixed(1)} h
+                                                </span>
+                                            </div>
+
+                                            {adjustedAttendance.finalHours < 0 && (
+                                                <div className="adjusted-warning">
+                                                    ※ 授業時間が調整後在室時間を上回っています
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
 
