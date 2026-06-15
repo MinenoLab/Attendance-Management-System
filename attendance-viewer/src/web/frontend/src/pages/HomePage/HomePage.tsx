@@ -89,6 +89,26 @@ const HomePage: React.FC = () => {
         error: snapshotError,
     } = useGetSnapshot(startDate, endDate, selectedUser?.name);
 
+    const totalAttendance = useMemo(() => {
+        if (!snapshotData || !selectedUser) return null;
+
+        const userData = snapshotData[selectedUser.name];
+        if (!userData) return null;
+
+        // 期間内の全日付の分数を合計
+        const totalMinutes = Object.values(userData).reduce(
+            (sum, minutes) => sum + minutes,
+            0
+        );
+
+        return {
+            totalMinutes,
+            hours  : Math.floor(totalMinutes / 60),
+            minutes: totalMinutes % 60,
+            days   : Object.keys(userData).filter(date => userData[date] > 0).length, // 在室日数
+        };
+    }, [snapshotData, selectedUser]);
+
     // 過去7日間のデータを取得するフック
     const {
         last7DaysData,
@@ -333,6 +353,52 @@ const HomePage: React.FC = () => {
                             <span style={{ fontWeight: 'bold' }}> 〜 </span>
                             <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} style={{ padding: '6px', borderRadius: '4px', border: '1px solid #ccc', cursor: 'pointer' }} />
                         </div>
+
+                        {!isSnapshotLoading && !snapshotError && totalAttendance && (
+                            <div style={{
+                                display       : 'flex',
+                                justifyContent: 'center',
+                                gap           : '2rem',
+                                marginBottom  : '16px',
+                                padding       : '12px 24px',
+                                backgroundColor: '#f8f9fa',
+                                borderRadius  : '8px',
+                                border        : '1px solid #e9ecef',
+                            }}>
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2c3e50', lineHeight: 1 }}>
+                                        {totalAttendance.hours}
+                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>h</span>
+                                        {' '}
+                                        {totalAttendance.minutes}
+                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>m</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginTop: '4px' }}>合計在室時間</div>
+                                </div>
+
+                                <div style={{ width: '1px', backgroundColor: '#dee2e6' }} />
+
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2c3e50', lineHeight: 1 }}>
+                                        {totalAttendance.days}
+                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>days</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginTop: '4px' }}>在室日数</div>
+                                </div>
+
+                                <div style={{ width: '1px', backgroundColor: '#dee2e6' }} />
+
+                                <div style={{ textAlign: 'center' }}>
+                                    <div style={{ fontSize: '1.8rem', fontWeight: 700, color: '#2c3e50', lineHeight: 1 }}>
+                                        {totalAttendance.days > 0
+                                            ? (totalAttendance.totalMinutes / totalAttendance.days / 60).toFixed(1)
+                                            : '0.0'}
+                                        <span style={{ fontSize: '1rem', fontWeight: 400, marginLeft: '2px' }}>h</span>
+                                    </div>
+                                    <div style={{ fontSize: '0.8rem', color: '#7f8c8d', marginTop: '4px' }}>1日平均</div>
+                                </div>
+                            </div>
+                        )}
 
                         {(isSnapshotLoading || snapshotError) ? (
                             <div className="modal-status-container">
