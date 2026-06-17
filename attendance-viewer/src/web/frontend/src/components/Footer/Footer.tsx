@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                     </a>
                     <span className="separator">|</span>
                     <a 
-                        href="natori.hirofumi.22@shizuoka.ac.jp / danish.adira.hidayat.22@shizuoka.ac.jp"
+                        href="natori.hirofumi.22@shizuoka.ac.jp, danish.adira.hidayat.22@shizuoka.ac.jp"
                         className="footer-link"
                     >
                         <span className="icon">✉️</span> Contact
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
                     </span>
                     <span className="separator">|</span>
                     <span className="footer-text">
-                        <strong className="footer-label">Contact:</strong> mkr.k117@gmail.com
+                        <strong className="footer-label">Contact:</strong> natori.hirofumi.22@shizuoka.ac.jp, danish.adira.hidayat.22@shizuoka.ac.jp
                     </span>
                 </div>
             </div>
