@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
             <div className="footer-content">
                 <div className="footer-section">
                     <p className="footer-text">
-                        © 2024-2026 <strong>Kaito Harada</strong>
+                        © 2026-2028 <strong>Natori Hirofumi, Hidayat Danish Adira</strong>
                     </p>
                     <p className="footer-text footer-affiliation">
                         (MinenoLab, Shizuoka University)
@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
                     </a>
                     <span className="separator">|</span>
                     <a 
-                        href="mailto:mkr.k117@gmail.com"
+                        href="natori.hirofumi.22@shizuoka.ac.jp / danish.adira.hidayat.22@shizuoka.ac.jp"
                         className="footer-link"
                     >
                         <span className="icon">✉️</span> Contact
