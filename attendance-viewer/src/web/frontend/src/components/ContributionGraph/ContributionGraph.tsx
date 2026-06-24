@@ -164,10 +164,11 @@ interface MiniContributionGraphProps {
 export const MiniContributionGraph: React.FC<MiniContributionGraphProps> = ({attendanceData, className = ''}) => {
     const getLast7Days = () => {
         const days = [];
-        for (let i = 7; i >= 1; i--) { 
+        for (let i = 7; i >= 1; i--) {
             const date = new Date();
             date.setDate(date.getDate() - i);
-            days.push(date.toISOString().split('T')[0]);
+            // タイムゾーン問題を回避するため，UTCのtoISOString()ではなくローカル時刻で日付を取得
+            days.push(toISODateString(date));
         }
         return days;
     };
