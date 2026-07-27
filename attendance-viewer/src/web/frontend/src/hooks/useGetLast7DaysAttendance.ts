@@ -4,12 +4,19 @@ import { useGetSnapshot }                                      from './useGetSna
 
 export const useGetLast7DaysAttendance = (): UseGetLast7DaysAttendanceReturn => {
     // 過去7日間の日付配列を取得（当日を除く，昨日から7日前まで）
+    // タイムゾーン問題を回避するため，UTCのtoISOString()ではなくローカル時刻で日付を取得
     const last7Days = useMemo(() => {
+        const formatLocalDate = (date: Date): string => {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        };
         const days = [];
         for (let i = 7; i >= 1; i--) {
             const date = new Date();
             date.setDate(date.getDate() - i);
-            days.push(date.toISOString().split('T')[0]);
+            days.push(formatLocalDate(date));
         }
         return days;
     }, []);
