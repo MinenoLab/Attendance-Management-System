@@ -2,7 +2,7 @@
 
 ## システム概要図
 
-<img width="3131" height="2099" alt="image2" src="https://github.com/user-attachments/assets/357fc189-f87d-4fab-a2fd-cffad3e99a4a" />
+<img width="3131" height="2099" alt="image2" src="https://github.com/user-attachments/assets/efa21af3-a1b3-40c0-b9c0-7ea158b815b8" />
 
 ## アーキテクチャ図
 
