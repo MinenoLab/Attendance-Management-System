@@ -6,7 +6,7 @@
 
 ## アーキテクチャ図
 
-<img width="2883" height="2206" alt="image" src="https://github.com/user-attachments/assets/86d00483-a738-4fad-b7ec-7f3060cca6b6" />
+<img width="2883" height="2206" alt="image" src="https://github.com/user-attachments/assets/fd03aa0f-2afe-4473-b2e2-16a54036f654" />
 
 ## 運用方法
 
