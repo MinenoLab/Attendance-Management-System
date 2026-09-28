@@ -14,6 +14,8 @@ interface MessageBoardProps {
 }
 
 const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
+    const hasMessages = Array.isArray(messages) && messages.length > 0;
+
     // 日付フォーマットのヘルパー関数
     const formatTime = (dateString: string) => {
         const date = new Date(dateString);
@@ -26,20 +28,14 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
     };
 
     return (
-        <div className="message-board-container">
+        <div className={`message-board-container ${hasMessages ? '' : 'is-empty'}`}>
             <div className="message-board-header">
                 <span className="message-board-icon">📌</span>
                 <h2 className="message-board-title">Information Board</h2>
             </div>
-            <div className="message-board-list">
-                {(!messages || messages.length === 0) ? (
-                    // メッセージがない場合のプレースホルダー表示
-                    <div className="message-empty">
-                        現在，メッセージはありません．
-                    </div>
-                ) : (
-                    // メッセージがある場合は通常通りマッピング
-                    messages.map((msg) => (
+            {hasMessages && (
+                <div className="message-board-list">
+                    {messages.map((msg) => (
                         <div key={msg.id} className={`message-card priority-${msg.priority}`}>
                             <div className="message-header">
                                 <span className="message-sender">{msg.sender}</span>
@@ -49,9 +45,9 @@ const MessageBoard: React.FC<MessageBoardProps> = ({ messages }) => {
                                 {msg.content}
                             </div>
                         </div>
-                    ))
-                )}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

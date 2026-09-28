@@ -34,7 +34,7 @@ body {
 }
 
 .board-title {
-    font-size   : clamp(2rem, 4.5vmin, 7rem);
+    font-size   : clamp(1.6rem, 3.6vmin, 5.6rem);
     font-weight : 700;
     color       : #2c3e50;
     margin      : 0.2em 0;
@@ -201,8 +201,17 @@ body {
     background-color: #f3f4f6;
 }
 
-.attendance-table thead th {
+/* .attendance-table thead th {
     font-size       : clamp(1.3rem, 3.2vmin, 3.8rem);
+    font-weight     : 600;
+    color           : #ffffff;
+    background-color: #495057;
+    padding         : clamp(5px, 1.2vmin, 12px) clamp(20px, 2vw, 40px);
+} */
+
+.attendance-table thead th,
+.attendance-table thead th:nth-child(n) {
+    font-size       : clamp(1rem, 2.4vmin, 2.8rem);
     font-weight     : 600;
     color           : #ffffff;
     background-color: #495057;
@@ -321,7 +330,7 @@ body {
     }
 
     .board-title {
-        font-size: clamp(1.5rem, 3.8vmin, 5rem);
+        font-size: clamp(1.2rem, 3vmin, 4rem);
     }
 
     .header-controls {

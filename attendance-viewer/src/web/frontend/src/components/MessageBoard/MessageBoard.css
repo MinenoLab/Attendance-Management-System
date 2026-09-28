@@ -97,7 +97,7 @@
     white-space: pre-wrap; /* 改行を保持 */
 }
 
-.message-empty {
+/* .message-empty {
     padding: 20px;
     text-align: center;
     color: #868e96;
@@ -105,4 +105,15 @@
     background-color: #f8f9fa;
     border-radius: 6px;
     border: 1px dashed #ced4da;
+} */
+
+/* メッセージがない時は見出しのみのコンパクト表示 */
+.message-board-container.is-empty {
+    padding: 8px 16px;
+}
+
+.message-board-container.is-empty .message-board-header {
+    margin-bottom : 0;
+    padding-bottom: 0;
+    border-bottom : none;
 }
