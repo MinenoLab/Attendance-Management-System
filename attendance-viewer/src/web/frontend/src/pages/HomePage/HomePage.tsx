@@ -52,6 +52,9 @@ const getGradeRowClass = (grade: string): string => {
         case 'B4': return 'grade-b4';
         case 'M1': return 'grade-m1';
         case 'M2': return 'grade-m2';
+        case 'D1': return 'grade-d1';
+        case 'D2': return 'grade-d2';
+        case 'D3': return 'grade-d3';
         case 'RS': return 'grade-researcher';
         default: return '';
     }
@@ -173,7 +176,7 @@ const HomePage: React.FC = () => {
 
     // ユーザーリストを学年と名前でソートするメモ化された値
     const sortedUsers = useMemo(() => {
-        const gradeSortOrder: { [key: string]: number } = { 'RS': 0, 'M2': 1, 'M1': 2, 'B4': 3, 'B3': 4 };
+        const gradeSortOrder: { [key: string]: number } = { 'RS': 0, 'D3': 1, 'D2': 2, 'D1': 3, 'M2': 4, 'M1': 5, 'B4': 6, 'B3': 7 };
         return [...realTimeUsers].sort((a, b) => {
             const gradeOrderA = gradeSortOrder[a.grade] ?? 99;
             const gradeOrderB = gradeSortOrder[b.grade] ?? 99;

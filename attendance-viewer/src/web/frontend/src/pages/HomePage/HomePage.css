@@ -283,6 +283,15 @@ body {
 .grade-researcher {
     background-color: #d0e0d0;
 }
+.grade-d3 {
+    background-color: #d8c0e0;
+}
+.grade-d2 {
+    background-color: #e0c8e8;
+}
+.grade-d1 {
+    background-color: #e7dbeb;
+}
 .grade-m2 {
     background-color: #f0e0c0;
 }
