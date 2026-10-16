@@ -7,20 +7,22 @@
 }
 
 .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    max-width: 1400px;
-    margin: 0 auto;
+    display        : flex;
+    flex-direction : row;
+    align-items    : center;
+    justify-content: center;
+    flex-wrap      : wrap;
+    gap            : 0.75rem;
+    max-width      : 1400px;
+    margin         : 0 auto;
 }
 
 .footer-section {
-    display: flex;
+    display    : flex;
+    flex-direction: row;
     align-items: center;
-    gap: 0.4rem;
-    flex-wrap: wrap;
+    gap        : 0.4rem;
+    flex-wrap  : nowrap;
 }
 
 .footer-text {
@@ -136,4 +138,41 @@
     .app-footer {
         padding: 0.3rem 0.5rem;
     }
+}
+
+/* 折りたたみ用トグルボタン */
+.footer-toggle {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    gap             : 0.3rem;
+    width           : 100%;
+    padding         : 0.2rem 0.5rem;
+    background-color: transparent;
+    border          : none;
+    cursor          : pointer;
+    color           : #6c757d;
+    font-size       : 0.75rem;
+    font-weight     : 500;
+    transition      : color 0.2s ease;
+}
+
+.footer-toggle:hover {
+    color: #2c3e50;
+}
+
+.footer-toggle-icon {
+    font-size: 0.65rem;
+    line-height: 1;
+}
+
+/* 閉じている時は内容を非表示 */
+.app-footer.is-closed .footer-content {
+    display: none;
+}
+
+/* 閉じている時は上余白を詰める */
+.app-footer.is-closed {
+    padding: 0.2rem 1rem;
+    margin-top: 0;
 }
