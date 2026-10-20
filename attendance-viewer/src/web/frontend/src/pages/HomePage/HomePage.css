@@ -145,25 +145,28 @@ body {
 .attendance-table tbody tr:last-child {
     border-bottom: none;
 }
-
+.attendance-table tbody tr {
+    flex       : 1 1 auto;
+    min-height : clamp(2.2rem, 5vmin, 5rem);
+}
 .attendance-table th,
 .attendance-table td {
     display     : flex;
     align-items : center;
-    padding     : clamp(4px, 0.9vmin, 10px) clamp(15px, 1.8vw, 35px);
+    padding     : 0 clamp(15px, 1.8vw, 35px);
     border-right: 1px solid #ecf0f1;
-    font-size   : clamp(1rem, 2vmin, 2.2rem);
+    font-size   : clamp(1.1rem, 2.2vmin, 2.5rem);
 }
+
 .attendance-table th:last-child,
 .attendance-table td:last-child {
     border-right: none;
 }
-
 .attendance-table th:nth-child(1),
 .attendance-table td:nth-child(1) {
     flex           : 0 0 72%;
     justify-content: flex-start;
-    font-size      : clamp(1.1rem, 3vmin, 3.6rem);
+    font-size      : clamp(1.2rem, 3.3vmin, 4rem);
 }
 .attendance-table th:nth-child(n+2),
 .attendance-table td:nth-child(n+2) {
