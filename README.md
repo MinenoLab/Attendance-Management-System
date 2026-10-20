@@ -26,6 +26,54 @@ $ sudo reboot
 
 - ユーザー登録に関する**全ての情報は毎年4月1日00:00AMに削除される**ため，在校生は再度ユーザー登録が必要となる
 
+## UI（Viewer）の文字サイズや行の高さを調整したいとき
+
+-   Viewer（attendance-viewer）のUIは、以下のCSSファイルで調整できる。修正後はgitにpushすることで、Amplifyが自動でビルド・再デプロイする。
+```
+$ npm run build
+$ git push
+```
+
+  | 対象 | ファイル | 主なクラス |
+  |------|---------|---------------------|
+  | ページタイトル（Attendance Status Board） | `src/pages/HomePage/HomePage.css` | `.board-title` |
+  | 表の見出し（Name / Present / Absent） | `src/pages/HomePage/HomePage.css` | `.attendance-table thead th` |
+  | メンバー名（1列目） | `src/pages/HomePage/HomePage.css` | `.attendance-table th:nth-child(1), td:nth-child(1)` |
+  | その他のセル（2列目以降） | `src/pages/HomePage/HomePage.css` | `.attendance-table th, .attendance-table td` |
+  | 行の高さ（メンバー数が増えた時） | `src/pages/HomePage/HomePage.css` | `.attendance-table tbody tr`（`min-height`） |
+  | Information Board の見出し | `src/components/MessageBoard/MessageBoard.css` | `.message-board-title` |
+  | フッターのリンク・著作権表示 | `src/components/Footer/Footer.css` | `.footer-text`, `.footer-link` |
+
+各 `font-size` は次のような形で書かれている。
+
+```css
+  font-size: clamp(1.2rem, 3.3vmin, 4rem);
+```
+
+  3つの値はそれぞれ以下の意味を持つ。真ん中の値が、通常の表示で実際に効く値となる。
+
+  - 第1引数（`1.2rem`）： 下限（小さい画面でもこの値より小さくならない）
+  - 第2引数（`3.3vmin`）： 推奨値（画面サイズに応じて自動調整される値）
+  - 第3引数（`4rem`）： 上限（大きい画面でもこの値より大きくならない）
+
+  **文字を少し小さくしたい時：** 真ん中の `vmin` の値を下げる（例：`3.3vmin → 3vmin`）
+  **文字を少し大きくしたい時：** 真ん中の `vmin` の値を上げる（例：`3.3vmin → 3.6vmin`）
+
+### 動作確認の方法
+
+  開発中は `npm start` でローカルサーバを立ち上げ、`localhost:3000` で確認する。CSSの変更はファイル保存時に自動反映される。本番環境と同じ条件で確認したい場合は、以下のコマンドで本番ビルドをローカル起動する。
+
+```
+$ npm run build
+$ npx serve -s build
+```
+
+### よくある調整パターン
+
+  - **画面下部にメンバーが収まりきらない：** `.attendance-table tbody tr` の `min-height` を下げるか、`.attendance-table th, td` のパディングを削る
+  - **メンバーが少なく下部に余白ができる：** `.attendance-table tbody tr` の `flex: 1 1 auto` が効いているか確認する（これで余白が自動で埋まる）
+  - **見出しだけ小さくしたい：** `.attendance-table thead th` のみを変更する。他のセルは変わらない
+
 ## 今後の展望
 
 難易度の低い順に並べています。
